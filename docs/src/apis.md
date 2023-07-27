@@ -14,5 +14,6 @@ msPage
 MiseEnPage.imagefloats
 MiseEnPage.pairtexts
 MiseEnPage.imgservice
-MiseEnPage.loadimage
+MiseEnPage.load_rgb
+MiseEnPage.load_rgba
 ```

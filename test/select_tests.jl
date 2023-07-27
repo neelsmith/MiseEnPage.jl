@@ -5,7 +5,7 @@ using MiseEnPage
 
 using CitableObject, CitableText
 using HmtArchive.Analysis
-
+using Images
 
 using Test
 using TestSetExtensions

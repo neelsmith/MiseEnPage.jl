@@ -9,14 +9,22 @@ function imgservice()
 end
 
 
+
 """Instantiate an `Image` from a URN.
 $(SIGNATURES)
 """
-function loadimage(imgurn::Cite2Urn; alpha = 1.0)
+function load_rgb(imgurn::Cite2Urn)
     trimmed = dropsubref(imgurn)
 	iifrequest = url(trimmed, imgservice())
     f = Downloads.download(iifrequest)
     img = load(f)
 	rm(f)
-	RGBA.(img, alpha)
+	img
+end
+
+"""Instantiate an `Image` from a URN.
+$(SIGNATURES)
+"""
+function load_rgba(imgurn::Cite2Urn; alpha = 1.0)
+	RGBA.(load_rgb(imgurn), alpha)
 end
