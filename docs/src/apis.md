@@ -13,4 +13,6 @@ msPage
 ```@docs
 MiseEnPage.imagefloats
 MiseEnPage.pairtexts
+MiseEnPage.imgservice
+MiseEnPage.loadimage
 ```

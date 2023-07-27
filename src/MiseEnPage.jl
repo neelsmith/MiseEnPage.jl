@@ -11,14 +11,20 @@ using CitableText
 using CitableImage
 using CitableBase
 
+using Downloads
+using Images
+using FileIO
+
 using Documenter
 using DocStringExtensions
 
 
 include("utils.jl")
+
 include("textpair.jl")
 include("mspage.jl")
 
+include("images/imgservice.jl")
 
 export MSPage, msPage
 
