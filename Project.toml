@@ -4,6 +4,7 @@ authors = ["Neel Smith <dnsmith.neel@gmail.com>"]
 version = "0.1.0"
 
 [deps]
+CitableBase = "d6f014bd-995c-41bd-9893-703339864534"
 CitableImage = "17ccb2e5-db19-44b3-b354-4fd16d92c74e"
 CitableObject = "e2b2f5ea-1cd8-4ce8-9b2b-05dad64c2a57"
 CitablePhysicalText = "e38a874e-a7c2-4ff3-8dea-81ae2e5c9b07"
@@ -16,6 +17,7 @@ JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
 TestSetExtensions = "98d24dd4-01ad-11ea-1b02-c9a08f80db04"
 
 [compat]
+CitableBase = "10"
 CitableImage = "0.6"
 CitableObject = "0.16"
 CitablePhysicalText = "0.9"
