@@ -17,6 +17,7 @@ makedocs(
     sitename = "MiseEnPage.jl",
     pages = [
         "Overview" => "index.md",
+        "API documentation" => "apis.md"
         ]
     )
 

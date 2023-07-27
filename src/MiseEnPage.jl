@@ -14,6 +14,8 @@ using CitableBase
 using Documenter
 using DocStringExtensions
 
+
+include("utils.jl")
 include("textpair.jl")
 include("mspage.jl")
 
