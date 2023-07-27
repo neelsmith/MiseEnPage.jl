@@ -12,4 +12,5 @@ msPage
 
 ```@docs
 MiseEnPage.imagefloats
+MiseEnPage.pairtexts
 ```
