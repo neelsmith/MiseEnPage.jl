@@ -7,7 +7,7 @@ function imagefloats(imgu::Cite2Urn; digits = 3)
     if hassubref(imgu)
         
         parts = split(subref(imgu),",")
-        @info("SUBREF with parts $(parts)")
+        @debug("Find floats for subreference with parts $(parts)")
         if length(parts) == 4
             floats = map(roi -> parse(Float64, roi), parts)
             map(num -> round(num, digits=digits), floats)
