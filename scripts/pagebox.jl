@@ -12,8 +12,12 @@ using Luxor
 pgurn = Cite2Urn("urn:cite2:hmt:msA.v1:47r")
 mspage = msPage(pgurn)
 
+function plotpagebounds(pgurn::Cite2Urn)
+    pgdata = msPage(pgurn)
+    plotpagebounds(pgdata)
+end
 
-function plotpagebounds(mspg)
+function plotpagebounds(mspg::MSPage)
     img = MiseEnPage.load_rgba(mspg.pagebounds, alpha = 0.6)
     iheight = size(img)[1]
     iwidth = size(img)[2]
@@ -36,5 +40,8 @@ function plotpagebounds(mspg)
     end iwidth iheight
 end
 
-
+# Plot it for a `MSPage`
 plotpagebounds(mspage)
+
+# Plot it for page identifed by URN:
+plotpagebounds(Cite2Urn("urn:cite2:hmt:msA.v1:47v"))
