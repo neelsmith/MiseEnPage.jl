@@ -196,6 +196,6 @@ function rightbottom_luxor(boxtuple)
     Point(boxtuple[:right], boxtuple[:bottom])
 end
 
-function luxor_rect(boxtuple)
-    # do a box() with lefttop, bottomright
-end
+#function luxor_box(boxtuple)
+#    # do a box() with lefttop, bottomright
+#end
