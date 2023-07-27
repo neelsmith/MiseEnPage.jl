@@ -14,6 +14,7 @@ using CitableBase
 using Downloads
 using Images
 using FileIO
+using Luxor
 
 using Documenter
 using DocStringExtensions

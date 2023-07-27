@@ -130,10 +130,19 @@ function scholion_heights(mspage::MSPage)
     scholion_height.(mspage.scholia)
 end
 
-
 """Find tops of *Iliad* lines in original image percent coordinates of scholia on page.
 $(SIGNATURES)
 """
 function iliad_tops(mspage::MSPage)
     iliad_top.(mspage.scholia)
+end
+
+function pagetop(mspage::MSPage; digits = 3)
+    coords = imagefloats(mspage.pagebounds)
+    round(coords[2], digits = digits)
+end
+
+function pagebottom(mspage::MSPage; digits = 3)
+    coords = imagefloats(mspage.pagebounds)
+    round(coords[2] + coords[4], digits = digits)
 end
