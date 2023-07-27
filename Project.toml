@@ -1,0 +1,29 @@
+name = "MiseEnPage"
+uuid = "92bda1c4-f68c-458d-a0a7-9475acb83902"
+authors = ["Neel Smith <dnsmith.neel@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+CitableImage = "17ccb2e5-db19-44b3-b354-4fd16d92c74e"
+CitableObject = "e2b2f5ea-1cd8-4ce8-9b2b-05dad64c2a57"
+CitablePhysicalText = "e38a874e-a7c2-4ff3-8dea-81ae2e5c9b07"
+CitableText = "41e66566-473b-49d4-85b7-da83b66615d8"
+DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+HiGHS = "87dc4568-4c63-4d18-b0c0-bb2238e4078b"
+HmtArchive = "1e7b0059-6550-4515-8382-5d3f2046a0a7"
+JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
+TestSetExtensions = "98d24dd4-01ad-11ea-1b02-c9a08f80db04"
+
+[compat]
+CitableImage = "0.6"
+CitableObject = "0.16"
+CitablePhysicalText = "0.9"
+CitableText = "0.16"
+DocStringExtensions = "0.9"
+Documenter = "0.27"
+HiGHS = "1.5"
+HmtArchive = "0.14"
+JuMP = "1.12"
+TestSetExtensions = "2"
+julia = "1.9"
