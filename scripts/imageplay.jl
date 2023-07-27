@@ -23,6 +23,7 @@ end
 	placeimage(img,O)
     tl = Point(scalepct(iheight,page_bbox[:top]), scalepct(iwidth,page_bbox[:left]))
     tr = Point(scalepct(iheight,page_bbox[:top]), scalepct(iwidth,page_bbox[:right]))
+    sethue("blue")
     line(tl, tr, :stroke)
     circle(tl, 5, :fill )
 end iwidth iheight
