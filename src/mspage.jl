@@ -137,25 +137,65 @@ function iliad_tops(mspage::MSPage)
     iliad_top.(mspage.scholia)
 end
 
-function pagetop(mspage::MSPage; digits = 3)
-    coords = imagefloats(mspage.pagebounds)
-    round(coords[2], digits = digits)
-end
-
-function pagebottom(mspage::MSPage; digits = 3)
-    coords = imagefloats(mspage.pagebounds)
-    round(coords[2] + coords[4], digits = digits)
-end
-
-
 
 function pageboundbox(mspage::MSPage; digits = 3)::NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}
-    coords = imagefloats(mspage.pagebounds)
-    t = round(coords[2], digits = digits)
-    l = round(coords[1], digits = digits)
-    b = round(coords[2] + coords[4], digits = digits)
-    r = round(coords[1] + coords[3], digits = digits)
+    boxdata = mspage.pagebounds |> MiseEnPage.imagefloats
+    
+    t = round(boxdata[:top], digits = digits)
+    l = round(boxdata[:left], digits = digits)
+    b = round(boxdata[:top] + boxdata[:height], digits = digits)
+    r = round(boxdata[:left] + boxdata[:width], digits = digits)
+
     @debug("Here are pagebounds: $(t), $(l), $(b), $(r)")
     (left = l, top = t,  right = r, bottom = b)
 
+end
+
+function pageboxscaled(mspage::MSPage; digits = 3)
+    img = load_rgba(mspage.pagebounds)
+    @info("Loaded image for $(mspage.pageurn)")
+    pageboxscaled(mspage, img; digits = digits)
+end
+
+function pageboxscaled(mspage::MSPage, rgba_img::Matrix{RGBA{N0f8}};
+    digits = 3)
+    dimm = size(rgba_img)
+    @info("Scale on page + img pair with dimm $(dimm)")
+    box = pageboundbox(mspage, digits = digits)
+    pageboxscaled(box, dimm[1], dimm[2]; digits = digits)
+end
+
+function pageboxscaled(boxtuple::NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}, 
+    imgheight::Int, imgwidth::Int;
+    digits = 3)
+    @info("Scaling from tuple $(boxtuple) with ht $(imgheight) and wt $(imgwidth)")
+    t = round(boxtuple[:top] * imgheight, digits = digits)
+    l = round(boxtuple[:left] * imgwidth, digits = digits)
+    b = round((boxtuple[:bottom]) * imgheight, digits = digits)
+    r = round((boxtuple[:right]) * imgwidth, digits = digits)
+    (left = t, top = t, right = r, bottom = b)
+end
+
+function pageboxscaled(boxtuple, rgba_img::Matrix{RGBA{N0f8}})
+    dimm = size(rgba_img)
+    pageboxscaled(boxtuple,dimm[1], dimm[2])
+end
+
+function pageboxscaled(boxtuple, rgb_img::Matrix{RGB{N0f8}})
+    dimm = size(rgb_img)
+    pageboxscaled(boxtuple,dimm[1], dimm[2])
+end
+
+
+function lefttop_luxor(boxtuple)
+    Point( boxtuple[:left], boxtuple[:top])
+end
+
+
+function rightbottom_luxor(boxtuple)
+    Point(boxtuple[:right], boxtuple[:bottom])
+end
+
+function luxor_rect(boxtuple)
+    # do a box() with lefttop, bottomright
 end

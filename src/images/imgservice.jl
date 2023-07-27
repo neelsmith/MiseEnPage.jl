@@ -20,6 +20,7 @@ function load_rgb(imgurn::Cite2Urn)
 	img
 end
 
+
 """Instantiate an `Image` from a URN.
 $(SIGNATURES)
 """
@@ -39,7 +40,8 @@ function imagefloats(imgu::Cite2Urn; digits = 3)
         @debug("Find floats for subreference with parts $(parts)")
         if length(parts) == 4
             floats = map(roi -> parse(Float64, roi), parts)
-            map(num -> round(num, digits=digits), floats)
+            rounded = map(num -> round(num, digits=digits), floats)
+            (left = rounded[1], top = rounded[2], width = rounded[3], height = rounded[4])
         else
             throw(ArgumentError("""Invalid region of interest in urn `$(imgu)`:  expression must have four comma-separated parts.""")) 
         end

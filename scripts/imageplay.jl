@@ -12,7 +12,10 @@ img = MiseEnPage.load_rgba(mspg.pagebounds, alpha = 0.6)
 iheight = size(img)[1]
 iwidth = size(img)[2]
 
-page_bbox = MiseEnPage.pageboundbox(mspg)
+box = mspg.pagebounds |> MiseEnPage.imagefloats
+#page_bbox = MiseEnPage.pageboundbox(mspg)
+
+typeof(box)
 
 function scalepct(pixels, pct)
     pct * pixels
@@ -27,3 +30,6 @@ end
     line(tl, tr, :stroke)
     circle(tl, 5, :fill )
 end iwidth iheight
+
+
+# rect(box[:left], box[:top], box[:width], box[:height])
