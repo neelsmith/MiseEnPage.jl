@@ -8,8 +8,6 @@ function imgservice()
     IIIFservice(SERVICE_URL, SERVICE_PATH_ROOT)
 end
 
-
-
 """Instantiate an `Image` from a URN.
 $(SIGNATURES)
 """

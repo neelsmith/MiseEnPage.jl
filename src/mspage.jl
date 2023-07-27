@@ -12,7 +12,6 @@ struct MSPage
 
     iliadlines::Vector{CtsUrn}
     scholia::Vector{ScholionIliadPair}
-
 end
 
 
@@ -120,4 +119,20 @@ function iliadbounds(iliadlines, dse; digits = 3)::NamedTuple{(:left, :top, :rig
     top = topbox[2]
     bottom = round(bottombox[2] + bottombox[4], digits = digits)
     (left = lft, top = top, right = rght, bottom = bottom)
+end
+
+
+"""Find height in original image percent coordinates of scholia on page.
+$(SIGNATURES)
+"""
+function scholion_heights(mspage::MSPage)
+    scholion_height.(mspage.scholia)
+end
+
+
+"""Find tops of *Iliad* lines in original image percent coordinates of scholia on page.
+$(SIGNATURES)
+"""
+function iliad_tops(mspage::MSPage)
+    iliad_top.(mspage.scholia)
 end

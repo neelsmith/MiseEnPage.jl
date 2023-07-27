@@ -9,3 +9,14 @@ struct ScholionIliadPair
     iliadbox::Cite2Urn
     lineindex::Union{Int, Nothing}
 end
+
+
+function scholion_height(sipair::ScholionIliadPair)
+    coords = imagefloats(sipair.scholionbox)
+    round(coords[4], digits = digits)
+end
+
+function iliad_top(sipair::ScholionIliadPair)
+    coords = imagefloats(sipair.iliadbox)
+    coords[2]
+end
