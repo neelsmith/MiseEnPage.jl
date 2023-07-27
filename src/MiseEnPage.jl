@@ -19,12 +19,12 @@ using Documenter
 using DocStringExtensions
 
 
-include("utils.jl")
+include("images/imgservice.jl")
 
 include("textpair.jl")
 include("mspage.jl")
 
-include("images/imgservice.jl")
+
 
 export MSPage, msPage
 

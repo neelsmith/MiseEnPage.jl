@@ -2,14 +2,15 @@
 """
 struct MSPage
     pageurn::Cite2Urn
-    pagebounds::Cite2Urn
-    iliadlines::Vector{CtsUrn}
-    scholia::Vector{ScholionIliadPair}
-    imagezone::Cite2Urn
     folioside
+    pagebounds::Cite2Urn
+
     top_zone_cutoff
     bottom_zone_cutoff
-    
+
+    iliadlines::Vector{CtsUrn}
+    scholia::Vector{ScholionIliadPair}
+
 end
 
 
@@ -30,13 +31,13 @@ function msPage(pageurn::Cite2Urn; data = nothing)::Union{MSPage, Nothing}
     end
 
     boundsimgs = filter(hmt_pagerois(hmtdata).index) do pr
-        string(pr[1]) == string(pageurn)
+        string(pr[1]) == string(pageurn)    
     end
     if length(boundsimgs) != 1
         throw(ArgumentError("$(pageurn) does not have indexed page boundaries in the HMT archive"))
     end
     boundsimg = boundsimgs[1][2]
-    
+
     dse = hmt_dse(hmtdata)[1] 
     
     textpassages = textsforsurface(pageurn, dse)
@@ -49,11 +50,14 @@ function msPage(pageurn::Cite2Urn; data = nothing)::Union{MSPage, Nothing}
     iliadstrings = map(u -> string(u),iliadreff)
     scholiapairs = pairtexts(scholiareff, allcommentary.commentary, dse, iliadstrings)
 
-    izone = Cite2Urn("urn:cite2:fake:no.no:")
+    #iliadbounds = iliad
 
-    topthresh = nothing
-    bottomthresh = nothing
-    MSPage(pageurn, boundsimg, iliadreff, scholiapairs, izone, pageside, topthresh, bottomthresh)
+    topzonethresh = nothing
+    bottomzonethresh = nothing
+    MSPage(
+        pageurn, pageside, boundsimg, 
+        topzonethresh, bottomzonethresh,
+        iliadreff, scholiapairs)
     
 end
 
@@ -90,4 +94,33 @@ function pairtexts(scholialist, commentarydata, dsedata, iliadreff)
         end
     end
     filter(pr -> !isnothing(pr), rawmappings)
+end
+
+
+"""Get a containing rectangle for the *Iliad* lines on a page.
+`iliadlines` should be a Vector with *Iliad* lines on a single page;
+`dse` is a DSE collection covering those lines.
+$(SIGNATURES)
+"""
+function iliadbounds(iliadlines, dse; digits = 3)::NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}
+    topdse = imagesfortext(iliadlines[1], dse)#[1] |> MiseEnPage.imagefloats
+    if length(topdse) != 1
+        throw(ArgumentError("iliadbounds: no DSE record found for $(iliadlines[1])"))
+    end
+
+    bottomdse = imagesfortext(iliadlines[end], dse)#[1] |> MiseEnPage.
+    if length(bottomdse) != 1
+        throw(ArgumentError("iliadbounds: no DSE record found for $(iliadlines[end])"))
+    end
+
+    topbox = topdse[1] |> MiseEnPage.imagefloats
+    @debug("Top box on $(iliadlines[1]) is $(topbox)")
+    bottombox = bottomdse[end] |> MiseEnPage.imagefloats
+    @debug("Bottom box on $(iliadlines[end]) is $(bottombox)")
+    lft = min(topbox[1], bottombox[1])
+    rghtraw = max(topbox[1] + topbox[3], bottombox[1] + bottombox[3])
+    rght = round(rghtraw, digits = digits)
+    top = topbox[2]
+    bottom = round(bottombox[2] + bottombox[4], digits = digits)
+    (left = lft, top = top, right = rght, bottom = bottom)
 end
