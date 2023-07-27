@@ -5,9 +5,13 @@ $(SIGNATURES)
 function model_by_proximity(mspage::MSPage; siglum = "msA", digits = 3)
     scholialist = isempty(siglum) || isnothing(siglum) ? mspage.scholia : filter(pr -> workid(pr.scholion) == siglum, mspage.scholia)
     n = length(scholialist)
-    s_heights = scholion_heights(filteredPage)
-    
-    #=
+    s_heights = scholion_height.(scholialist)
+    iliad_ys = iliad_top.(scholialist)
+    totals = []
+    for i in 1:n
+        push!(totals, sum(s_heights[1:i]))
+    end
+   
     model = Model(HiGHS.Optimizer)
     @variable(model, yval[i = 1:n])
     @constraint(model, domainlimits, 0 .<= yval .<= 1)
@@ -18,13 +22,12 @@ function model_by_proximity(mspage::MSPage; siglum = "msA", digits = 3)
     optimize!(model)
     status = termination_status(model)
     if status != OPTIMAL 
-        return nothing
+        @warn("model_by_proximity: failed to reach optimal result for page $(mspage)")
+        nothing
+    else
+        yvallist = value.(yval)
+        map(yvallist) do y
+            round(y, digits = digits)
+        end
     end
-    solution_summary(model)
-    stringvalue = join(round.(value.(yval), digits = digits), ",")
-    opt_ys= split(stringvalue, ",")
-    opt_ys= map(x->round(parse(Float64, x), digits = digits), opt_ys)
-    return opt_ys
-
-    =#
 end

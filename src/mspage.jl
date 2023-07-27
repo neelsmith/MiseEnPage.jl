@@ -34,8 +34,9 @@ function msPage(pageurn::Cite2Urn; data = nothing)::Union{MSPage, Nothing}
     boundsimgs = filter(hmt_pagerois(hmtdata).index) do pr
         string(pr[1]) == string(pageurn)    
     end
-    if length(boundsimgs) != 1
-        throw(ArgumentError("$(pageurn) does not have indexed page boundaries in the HMT archive"))
+    if isempty(boundsimgs)
+        @warn("$(pageurn) does not have indexed page boundaries in the HMT archive")
+        return nothing
     end
     boundsimg = boundsimgs[1][2]
 
