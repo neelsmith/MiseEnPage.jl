@@ -5,7 +5,7 @@
     @test pg isa MSPage
 
     dse = hmt_dse(src)[1]
-    pg_bbox = MiseEnPage.iliadbounds(pg.iliadlines, dse)
+    pg_bbox = MiseEnPage.iliadboundbox(pg.iliadlines, dse)
     @test pg_bbox == (left = 0.144, top = 0.213, right = 0.545, bottom = 0.697)
 
     # Test a page with no page bounding box

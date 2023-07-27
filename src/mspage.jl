@@ -50,7 +50,7 @@ function msPage(pageurn::Cite2Urn; data = nothing)::Union{MSPage, Nothing}
     iliadstrings = map(u -> string(u),iliadreff)
     scholiapairs = pairtexts(scholiareff, allcommentary.commentary, dse, iliadstrings)
 
-    iliadboundingbox = iliadbounds(iliadreff, dse)
+    iliadboundingbox = iliadboundbox(iliadreff, dse)
     
     MSPage(
         pageurn, pageside, 
@@ -99,15 +99,15 @@ end
 `dse` is a DSE collection covering those lines.
 $(SIGNATURES)
 """
-function iliadbounds(iliadlines, dse; digits = 3)::NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}
+function iliadboundbox(iliadlines, dse; digits = 3)::NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}
     topdse = imagesfortext(iliadlines[1], dse)#[1] |> MiseEnPage.imagefloats
     if length(topdse) != 1
-        throw(ArgumentError("iliadbounds: no DSE record found for $(iliadlines[1])"))
+        throw(ArgumentError("iliadboundbox: no DSE record found for $(iliadlines[1])"))
     end
 
     bottomdse = imagesfortext(iliadlines[end], dse)#[1] |> MiseEnPage.
     if length(bottomdse) != 1
-        throw(ArgumentError("iliadbounds: no DSE record found for $(iliadlines[end])"))
+        throw(ArgumentError("iliadboundbox: no DSE record found for $(iliadlines[end])"))
     end
 
     topbox = topdse[1] |> MiseEnPage.imagefloats
@@ -145,4 +145,17 @@ end
 function pagebottom(mspage::MSPage; digits = 3)
     coords = imagefloats(mspage.pagebounds)
     round(coords[2] + coords[4], digits = digits)
+end
+
+
+
+function pageboundbox(mspage::MSPage; digits = 3)::NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}
+    coords = imagefloats(mspage.pagebounds)
+    t = round(coords[2], digits = digits)
+    l = round(coords[1], digits = digits)
+    b = round(coords[2] + coords[4], digits = digits)
+    r = round(coords[1] + coords[3], digits = digits)
+    @debug("Here are pagebounds: $(t), $(l), $(b), $(r)")
+    (left = l, top = t,  right = r, bottom = b)
+
 end

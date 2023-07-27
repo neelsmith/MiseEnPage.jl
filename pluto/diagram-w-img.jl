@@ -61,6 +61,18 @@ md"""# Diagram page layout"""
 # ╔═╡ 0e71905f-081e-4615-bee8-247ee9cbfa2e
 md"""*Width of image (pixels)* $(@bind w confirm(Slider(200:50:800, show_value=true)))"""
 
+# ╔═╡ 5f62b050-6fad-4057-9f43-69983818c105
+imgheight = 600
+
+# ╔═╡ 307593e0-f39b-4001-984f-38ea55374b54
+
+
+# ╔═╡ 5f5534fc-f996-472b-842b-7051805a020c
+canvash = 1100
+
+# ╔═╡ 8c5b1796-b5c9-4120-b697-cb552de1d47e
+canvasw = imgheight
+
 # ╔═╡ 34409b3f-cb5c-409c-bebf-03befe1b6492
 md"""*Set image transparency* $(@bind alpha Slider(0:0.1:1.0, show_value=true, 
 default=0.5))"""
@@ -277,7 +289,7 @@ imgsvcroot = "/project/homer/pyramidal/deepzoom"
 imgservice = IIIFservice(imgsvcurl, imgsvcroot)
 
 # ╔═╡ 82ed9fa1-75a3-4c60-84db-f1f75e049add
-function pageimage(pg, roituples; ht = 200)
+function pageimage(pg, roituples; ht = imgheight)
 	prs = filter(pr -> pr[1] == pg, roituples)
 	if isempty(prs) 
 		nothing 
@@ -297,6 +309,24 @@ pgimg = pageimage(pg, pagerois)
 # ╔═╡ 35f39a9d-4362-484d-a4bf-8d284ea6aab3
 screened = RGBA.(pgimg, alpha)
 
+# ╔═╡ 8ed3744c-ae61-43a9-990e-c8bf1b27b385
+screened |> size
+
+
+# ╔═╡ 636051bb-dcb5-4c4f-804f-028fbe9a99df
+iheight = size(screened)[1]
+
+
+# ╔═╡ 20894078-5658-45e9-992e-a4b1271058f9
+iwidth = size(screened)[2]
+
+# ╔═╡ 99031246-4622-469d-9f00-7006d1044065
+@draw begin
+	# Set coordinate system with origin at top left:
+	translate(-1 * iwidth/2,-1 * iheight / 2)
+	placeimage(screened,O)
+end  iwidth iheight
+
 # ╔═╡ Cell order:
 # ╟─d2424f38-d821-44b6-8fd9-365ee695f324
 # ╠═36927b11-2363-4d84-89a3-77cb4a63939a
@@ -305,6 +335,14 @@ screened = RGBA.(pgimg, alpha)
 # ╟─882de14a-a64b-4a73-9bee-366ff5442577
 # ╟─0e71905f-081e-4615-bee8-247ee9cbfa2e
 # ╟─51937435-bb4e-4801-bfe0-740781475ad2
+# ╠═5f62b050-6fad-4057-9f43-69983818c105
+# ╠═99031246-4622-469d-9f00-7006d1044065
+# ╠═307593e0-f39b-4001-984f-38ea55374b54
+# ╠═8ed3744c-ae61-43a9-990e-c8bf1b27b385
+# ╠═5f5534fc-f996-472b-842b-7051805a020c
+# ╠═8c5b1796-b5c9-4120-b697-cb552de1d47e
+# ╠═636051bb-dcb5-4c4f-804f-028fbe9a99df
+# ╠═20894078-5658-45e9-992e-a4b1271058f9
 # ╟─31caf334-aede-4171-83b7-d26c93c131e1
 # ╟─73f0101c-12a1-4237-8fb2-1699bcb46383
 # ╟─34409b3f-cb5c-409c-bebf-03befe1b6492
