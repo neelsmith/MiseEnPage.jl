@@ -1,12 +1,14 @@
-"""Model page of a manuscript.
+"""Model for analyzing layout of a page of a manuscript.
+Note that `pagebounds` is an image URN with region of interest showing
+position of the physical page within a documentary photograph.
+`iliad_bbox` is a bounding box for *Iliad* passages on the page, expressed in the same image-percent coordinates as image URNs.
 """
 struct MSPage
     pageurn::Cite2Urn
     folioside
-    pagebounds::Cite2Urn
 
-    top_zone_cutoff
-    bottom_zone_cutoff
+    pagebounds::Cite2Urn
+    iliad_bbox
 
     iliadlines::Vector{CtsUrn}
     scholia::Vector{ScholionIliadPair}
@@ -38,27 +40,22 @@ function msPage(pageurn::Cite2Urn; data = nothing)::Union{MSPage, Nothing}
     end
     boundsimg = boundsimgs[1][2]
 
-    dse = hmt_dse(hmtdata)[1] 
-    
+    dse = hmt_dse(hmtdata)[1]     
     textpassages = textsforsurface(pageurn, dse)
+
     iliadreff =  filter(u -> startswith(workcomponent(u), "tlg0012.tlg001."), textpassages)
     scholiareff = filter(psg -> startswith(workcomponent(psg), "tlg5026"), textpassages)
-
-    
 
     allcommentary = hmt_commentary(hmtdata)[1]
     iliadstrings = map(u -> string(u),iliadreff)
     scholiapairs = pairtexts(scholiareff, allcommentary.commentary, dse, iliadstrings)
 
-    #iliadbounds = iliad
-
-    topzonethresh = nothing
-    bottomzonethresh = nothing
-    MSPage(
-        pageurn, pageside, boundsimg, 
-        topzonethresh, bottomzonethresh,
-        iliadreff, scholiapairs)
+    iliadboundingbox = iliadbounds(iliadreff, dse)
     
+    MSPage(
+        pageurn, pageside, 
+        boundsimg, iliadboundingbox,
+        iliadreff, scholiapairs)    
 end
 
 """Pair data for each scholion in `scholialist` with corresponding *Iliad*
