@@ -15,6 +15,7 @@ using Documenter
 using DocStringExtensions
 
 include("mspage.jl")
+include("textpair.jl")
 
 export MSPage, msPage
 
