@@ -137,8 +137,12 @@ function iliad_tops(mspage::MSPage)
     iliad_top.(mspage.scholia)
 end
 
-
-function pageboundbox(mspage::MSPage; digits = 3)::NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}
+"""Find bounding box for the physical page of MS
+expressed as region of interest on a documentary image.
+Returns a named tuple of floats.
+$(SIGNATURES)
+"""
+function page_bbox_roi(mspage::MSPage; digits = 3)::NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}
     boxdata = mspage.pagebounds |> MiseEnPage.imagefloats
     
     t = round(boxdata[:top], digits = digits)
@@ -150,52 +154,3 @@ function pageboundbox(mspage::MSPage; digits = 3)::NamedTuple{(:left, :top, :rig
     (left = l, top = t,  right = r, bottom = b)
 
 end
-
-function pageboxscaled(mspage::MSPage; digits = 3)
-    img = load_rgba(mspage.pagebounds)
-    @info("Loaded image for $(mspage.pageurn)")
-    pageboxscaled(mspage, img; digits = digits)
-end
-
-function pageboxscaled(mspage::MSPage, rgba_img::Matrix{RGBA{N0f8}};
-    digits = 3)
-    dimm = size(rgba_img)
-    @info("Scale on page + img pair with dimm $(dimm)")
-    box = pageboundbox(mspage, digits = digits)
-    pageboxscaled(box, dimm[1], dimm[2]; digits = digits)
-end
-
-function pageboxscaled(boxtuple::NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}, 
-    imgheight::Int, imgwidth::Int;
-    digits = 3)
-    @info("Scaling from tuple $(boxtuple) with ht $(imgheight) and wt $(imgwidth)")
-    t = round(boxtuple[:top] * imgheight, digits = digits)
-    l = round(boxtuple[:left] * imgwidth, digits = digits)
-    b = round((boxtuple[:bottom]) * imgheight, digits = digits)
-    r = round((boxtuple[:right]) * imgwidth, digits = digits)
-    (left = t, top = t, right = r, bottom = b)
-end
-
-function pageboxscaled(boxtuple, rgba_img::Matrix{RGBA{N0f8}})
-    dimm = size(rgba_img)
-    pageboxscaled(boxtuple,dimm[1], dimm[2])
-end
-
-function pageboxscaled(boxtuple, rgb_img::Matrix{RGB{N0f8}})
-    dimm = size(rgb_img)
-    pageboxscaled(boxtuple,dimm[1], dimm[2])
-end
-
-
-function lefttop_luxor(boxtuple)
-    Point( boxtuple[:left], boxtuple[:top])
-end
-
-
-function rightbottom_luxor(boxtuple)
-    Point(boxtuple[:right], boxtuple[:bottom])
-end
-
-#function luxor_box(boxtuple)
-#    # do a box() with lefttop, bottomright
-#end

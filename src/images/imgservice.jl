@@ -8,10 +8,11 @@ function imgservice()
     IIIFservice(SERVICE_URL, SERVICE_PATH_ROOT)
 end
 
-"""Instantiate an `Image` from a URN.
+"""Instantiate an `Image` from a URN.  Returns
+a matrix of RGB values.
 $(SIGNATURES)
 """
-function load_rgb(imgurn::Cite2Urn)
+function load_rgb(imgurn::Cite2Urn)::Matrix{RGB{N0f8}}
     trimmed = dropsubref(imgurn)
 	iifrequest = url(trimmed, imgservice())
     f = Downloads.download(iifrequest)
@@ -22,15 +23,16 @@ end
 
 
 """Instantiate an `Image` from a URN.
+Returns a matrix of RGBA values.
 $(SIGNATURES)
 """
-function load_rgba(imgurn::Cite2Urn; alpha = 1.0)
+function load_rgba(imgurn::Cite2Urn; alpha = 1.0)::Matrix{RGB{N0f8}}
 	RGBA.(load_rgb(imgurn), alpha)
 end
 
 
-"""Extract region-of-interest string from an image URN, and convert to a Vector of `Float64`s, rounded to `digits` significant digits.
-It is an error if the image URN has a subreference with invalid syntax.
+"""Extract region-of-interest string from an image URN, and convert to a vector of floats rounded to `digits` significant places.
+It is an error if the syntax of the URN's subreference is invalid.
 $(SIGNATURES)
 """
 function imagefloats(imgu::Cite2Urn; digits = 3)

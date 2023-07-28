@@ -25,7 +25,7 @@ include("textpair.jl")
 include("mspage.jl")
 include("models/proximity_model.jl")
 include("models/zones_model.jl")
-
+include("images/luxorpage.jl")
 
 
 export MSPage, msPage
