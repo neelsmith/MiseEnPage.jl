@@ -24,7 +24,23 @@ function pageboxscaled(mspage::MSPage, rgba_img::Matrix{RGBA{N0f8}};
 end
 
 
-"""Scales percentage coordinate values in the named tuple `boxtuple` to pixels on an image with height `imgheight` and width `imgwidth`. Returns a named tuple of floats.
+"""Scale percentage coordinate values in the named tuple `boxtuple` to pixels on the image `rgba_img`. Returns a named tuple of floats.
+$(SIGNATURES)
+"""
+function boxscaled(boxtuple, rgba_img::Matrix{RGBA{N0f8}})
+    dimm = size(rgba_img)
+    boxscaled(boxtuple,dimm[1], dimm[2])
+end
+
+"""Scale percentage coordinate values in the named tuple `boxtuple` to pixels on the image `rgb_img`. Returns a named tuple of floats.
+$(SIGNATURES)
+"""
+function boxscaled(boxtuple, rgb_img::Matrix{RGB{N0f8}})
+    dimm = size(rgb_img)
+    boxscaled(boxtuple,dimm[1], dimm[2])
+end
+
+"""Scale percentage coordinate values in the named tuple `boxtuple` to pixels on an image with height `imgheight` and width `imgwidth`. Returns a named tuple of floats.
 $(SIGNATURES)
 """
 function boxscaled(boxtuple::NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}, 
@@ -38,17 +54,8 @@ function boxscaled(boxtuple::NamedTuple{(:left, :top, :right, :bottom), NTuple{4
     (left = t, top = t, right = r, bottom = b)
 end
 
-function pageboxscaled(boxtuple, rgba_img::Matrix{RGBA{N0f8}})
-    dimm = size(rgba_img)
-    pageboxscaled(boxtuple,dimm[1], dimm[2])
-end
 
-function pageboxscaled(boxtuple, rgb_img::Matrix{RGB{N0f8}})
-    dimm = size(rgb_img)
-    pageboxscaled(boxtuple,dimm[1], dimm[2])
-end
-
-
+#=
 function page_lefttop_luxor(boxtuple)
     Point( boxtuple[:left], boxtuple[:top])
 end
@@ -57,3 +64,4 @@ end
 function page_rightbottom_luxor(boxtuple)
     Point(boxtuple[:right], boxtuple[:bottom])
 end
+=#

@@ -25,3 +25,36 @@ pageurn = Cite2Urn("urn:cite2:hmt:msA.v1:55r")
 using MiseEnPage
 pg = msPage(pageurn; data = data)
 ```
+
+Information in the model:
+ 
+
+```@example intro
+pageurn(pg)
+```
+
+```@example intro
+rv(pg)
+```
+
+```@example intro
+imageurn(pg)
+```
+
+```@example intro
+iliadrange(pg)
+```
+
+```@example intro
+iliadlines(pg)
+```
+
+
+```@example intro
+page_bbox_roi(pg)
+```
+
+
+```@example intro
+iliad_bbox_roi(pg)
+```

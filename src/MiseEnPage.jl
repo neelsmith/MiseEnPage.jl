@@ -22,6 +22,7 @@ using DocStringExtensions
 
 include("images/imgservice.jl")
 include("textpair.jl")
+include("mspage_constructor.jl")
 include("mspage.jl")
 include("models/proximity_model.jl")
 include("models/zones_model.jl")
@@ -29,6 +30,8 @@ include("images/luxorpage.jl")
 
 
 export MSPage, msPage
+export pageurn, rv, imageurn, iliadlines, iliadrange, page_bbox_roi, iliad_bbox_roi
+
 export model_by_proximity
 export model_by_zones
 

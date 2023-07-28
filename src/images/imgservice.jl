@@ -21,7 +21,6 @@ function load_rgb(imgurn::Cite2Urn)::Matrix{RGB{N0f8}}
 	img
 end
 
-
 """Instantiate an `Image` from a URN.
 Returns a matrix of RGBA values.
 $(SIGNATURES)

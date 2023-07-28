@@ -12,6 +12,12 @@ using Luxor
 pgurn = Cite2Urn("urn:cite2:hmt:msA.v1:47r")
 mspage = msPage(pgurn)
 
+
+
+
+
+
+
 function plotpagebounds(pgurn::Cite2Urn)
     pgdata = msPage(pgurn)
     plotpagebounds(pgdata)
