@@ -53,3 +53,13 @@ function boxscaled(boxtuple::NamedTuple{(:left, :top, :right, :bottom), NTuple{4
     r = round((boxtuple[:right]) * imgwidth, digits = digits)
     (left = t, top = t, right = r, bottom = b)
 end
+
+
+
+function pagebox_luxor(pg::MSPage, img; luxoraction = :stroke)
+    coords = pageboxscaled(pg, img)
+    ltpt = Point(coords[:left], coords[:top])
+    rbpt = Point(coords[:right], coords[:bottom])
+    @info("Boxing points $(ltpt), $(rbpt)")
+    box(ltpt, rbpt, action = luxoraction)
+end

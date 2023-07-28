@@ -15,9 +15,6 @@ mspage = msPage(pgurn)
 
 
 
-
-
-
 function plotpagebounds(pgurn::Cite2Urn)
     pgdata = msPage(pgurn)
     plotpagebounds(pgdata)

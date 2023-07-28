@@ -42,4 +42,7 @@ export PageScore
 export model_by_proximity
 export model_by_zones
 
+
+export pagebox_luxor
+
 end # module MiseEnPage
