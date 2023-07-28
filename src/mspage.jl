@@ -68,8 +68,8 @@ function iliad_bbox_roi(mspage::MSPage; digits = 3)::NamedTuple{(:left, :top, :r
 end
 
 
-function load_rgba(mspage::MSPage; alpha = 0.6)
-    load_rgba(imageurn(mspage); alpha = alpha)
+function load_rgba(mspage::MSPage; alpha = 0.6, w = 600)
+    load_rgba(imageurn(mspage); w = w, alpha = alpha)
 end
 
 
