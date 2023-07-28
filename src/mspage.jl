@@ -68,12 +68,12 @@ function iliad_bbox_roi(mspage::MSPage; digits = 3)::NamedTuple{(:left, :top, :r
 end
 
 
+"""Load documentary image for page `mspage`.
+$(SIGNATURES)
+"""
 function load_rgba(mspage::MSPage; alpha = 0.6, w = 600)
     load_rgba(imageurn(mspage); w = w, alpha = alpha)
 end
-
-
-
 
 
 """Find height in image percent coordinates of scholia on page.

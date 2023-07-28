@@ -18,11 +18,17 @@ $(SIGNATURES)
 function pageboxscaled(mspage::MSPage, rgba_img::Matrix{RGBA{N0f8}};
     digits = 3)
     dimm = size(rgba_img)
-    @info("Scale on page + img pair with dimm $(dimm)")
+    @debug("Scale on page + img pair with dimm $(dimm)")
     box = page_bbox_roi(mspage, digits = digits)
     boxscaled(box, dimm[1], dimm[2]; digits = digits)
 end
 
+
+function iliadboxscaled(mspage::MSPage, rgba_img::Matrix{RGBA{N0f8}}; digits = 3)
+    box = iliad_bbox_roi(mspage, digits = digits)
+    dimm = dimensions(rgba_img)
+    boxscaled(box, dimm[:w], dimm[:h]; digits = digits)
+end
 
 """Scale percentage coordinate values in the named tuple `boxtuple` to pixels on the image `rgba_img`. Returns a named tuple of floats.
 $(SIGNATURES)
@@ -58,6 +64,16 @@ end
 
 function pagebox_luxor(pg::MSPage, img; luxoraction = :stroke)
     coords = pageboxscaled(pg, img)
+    ltpt = Point(coords[:left], coords[:top])
+    rbpt = Point(coords[:right], coords[:bottom])
+    @info("Boxing points $(ltpt), $(rbpt)")
+    box(ltpt, rbpt, action = luxoraction)
+end
+
+
+
+function iliadbox_luxor(pg::MSPage, img; luxoraction = :stroke)
+    coords = iliadboxscaled(pg, img)
     ltpt = Point(coords[:left], coords[:top])
     rbpt = Point(coords[:right], coords[:bottom])
     @info("Boxing points $(ltpt), $(rbpt)")

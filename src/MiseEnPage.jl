@@ -43,6 +43,6 @@ export model_by_proximity
 export model_by_zones
 
 
-export pagebox_luxor
+export pagebox_luxor, iliadbox_luxor
 
 end # module MiseEnPage
