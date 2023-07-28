@@ -69,7 +69,7 @@ end
 
 
 function load_rgba(mspage::MSPage; alpha = 0.6)
-    load_rgba( imageurn(mspage); alpha = alpha)
+    load_rgba(imageurn(mspage); alpha = alpha)
 end
 
 
