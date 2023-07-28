@@ -30,7 +30,10 @@ include("images/luxorpage.jl")
 
 
 export MSPage, msPage
-export pageurn, rv, imageurn, iliadlines, iliadrange, page_bbox_roi, iliad_bbox_roi
+export pageurn, rv, imageurn, 
+iliadlines, iliadrange, 
+page_bbox_roi, iliad_bbox_roi, 
+load_rgba
 
 export model_by_proximity
 export model_by_zones

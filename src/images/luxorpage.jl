@@ -53,15 +53,3 @@ function boxscaled(boxtuple::NamedTuple{(:left, :top, :right, :bottom), NTuple{4
     r = round((boxtuple[:right]) * imgwidth, digits = digits)
     (left = t, top = t, right = r, bottom = b)
 end
-
-
-#=
-function page_lefttop_luxor(boxtuple)
-    Point( boxtuple[:left], boxtuple[:top])
-end
-
-
-function page_rightbottom_luxor(boxtuple)
-    Point(boxtuple[:right], boxtuple[:bottom])
-end
-=#

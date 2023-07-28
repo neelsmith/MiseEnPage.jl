@@ -64,8 +64,17 @@ Returns a named tuple of floats.
 $(SIGNATURES)
 """
 function iliad_bbox_roi(mspage::MSPage; digits = 3)::NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}
-    
+    mspage.iliad_bbox
 end
+
+
+function load_rgba(mspage::MSPage; alpha = 0.6)
+    load_rgba( imageurn(mspage); alpha = alpha)
+end
+
+
+
+
 
 """Find height in image percent coordinates of scholia on page.
 $(SIGNATURES)
