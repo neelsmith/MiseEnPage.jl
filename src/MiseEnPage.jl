@@ -33,9 +33,9 @@ include("scoring/scores.jl")
 export MSPage, msPage
 export pageurn, rv, imageurn, 
 iliadlines, iliadrange, 
-page_bbox_roi, iliad_bbox_roi,  
-load_rgba
+page_bbox_roi, iliad_bbox_roi
 
+export load_rgba, dimensions
 
 export PageScore
 

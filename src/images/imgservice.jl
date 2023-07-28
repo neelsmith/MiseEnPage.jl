@@ -30,3 +30,8 @@ function load_rgba(imgurn::Cite2Urn; w = 800, alpha = 1.0)::Matrix{RGBA{N0f8}}
 	RGBA.(img, alpha)
 end
 
+
+function dimensions(img)
+    dimm = size(img)
+    (h = dimm[1], w = dimm[2])
+end
