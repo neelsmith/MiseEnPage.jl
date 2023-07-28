@@ -27,13 +27,17 @@ include("mspage.jl")
 include("models/proximity_model.jl")
 include("models/zones_model.jl")
 include("images/luxorpage.jl")
+include("scoring/scores.jl")
 
 
 export MSPage, msPage
 export pageurn, rv, imageurn, 
 iliadlines, iliadrange, 
-page_bbox_roi, iliad_bbox_roi, 
+page_bbox_roi, iliad_bbox_roi,  
 load_rgba
+
+
+export PageScore
 
 export model_by_proximity
 export model_by_zones
