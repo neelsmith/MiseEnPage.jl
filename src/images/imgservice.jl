@@ -30,7 +30,10 @@ function load_rgba(imgurn::Cite2Urn; w = 800, alpha = 1.0)::Matrix{RGBA{N0f8}}
 	RGBA.(img, alpha)
 end
 
-
+"""Find dimensions of image `img`, and format
+as a named tuple with `:h` and `:w` values.
+$(SIGNATURES)
+"""
 function dimensions(img)
     dimm = size(img)
     (h = dimm[1], w = dimm[2])

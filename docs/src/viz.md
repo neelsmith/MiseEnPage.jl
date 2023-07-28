@@ -30,6 +30,16 @@ img |> typeof
 
 ## Diagramming with Luxor
 
+Use the package.
+
+```@example viz
+using Luxor
+```
+
+Luxor includes shorthand macros to create diagrams as files on disk (e.g., `@png`)
+
+
+
 !!! info "More information about Luxor"
     See the excellent Luxor [documentation (including tutorial)](https://juliagraphics.github.io/Luxor.jl/stable/) if you want to learn more about creating graphics with Luxor.
 
