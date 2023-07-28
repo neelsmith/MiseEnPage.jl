@@ -1,5 +1,8 @@
 # Visualizing page layout
 
+`MiseEnPage` includes functions to visualize 
+
+
 Get an RGBA image for a page. Continue example from previous page.
 
 ```@setup viz
