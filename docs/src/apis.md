@@ -72,4 +72,6 @@ MiseEnPage.imgservice
 MiseEnPage.load_rgb
 MiseEnPage.boxscaled
 MiseEnPage.pageboxscaled
+MiseEnPage.iliadboxscaled
+MiseEnPage.pointscaled
 ```

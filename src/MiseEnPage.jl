@@ -26,7 +26,9 @@ include("mspage_constructor.jl")
 include("mspage.jl")
 include("models/proximity_model.jl")
 include("models/zones_model.jl")
+include("images/luxorscale.jl")
 include("images/luxorpage.jl")
+include("images/luxortexts.jl")
 include("scoring/scores.jl")
 
 

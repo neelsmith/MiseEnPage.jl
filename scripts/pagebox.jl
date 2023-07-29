@@ -15,7 +15,6 @@ dimm = dimensions(img)
 @info(dimm)
 @png begin
     translate(-1 * dimm[:w] / 2,  -1 * dimm[:h] / 2)
-    #@info("traslate $()")
     placeimage(img,O)
 
     setline(2)
