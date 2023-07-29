@@ -21,14 +21,19 @@ using DocStringExtensions
 
 
 include("images/imgservice.jl")
+
 include("textpair.jl")
 include("mspage_constructor.jl")
 include("mspage.jl")
+
 include("models/proximity_model.jl")
 include("models/zones_model.jl")
+
 include("images/luxorscale.jl")
 include("images/luxorpage.jl")
 include("images/luxortexts.jl")
+include("images/luxoroverview.jl")
+
 include("scoring/scores.jl")
 
 
@@ -47,6 +52,7 @@ export model_by_zones, score_by_zones
 export delimited, resultsfromdelimited
 
 
+export visualize_proximity_draw, visualize_proximity_png 
 export pagebox_luxor, iliadbox_luxor
 export commented_lines_luxor
 export plot_actual_y_luxor, plot_proximity_y_luxor
