@@ -1,5 +1,6 @@
 """Compute layout of scholia on page `mspage` using proximity model.
 Optionally limit consideration to scholia with siglum `siglum`.
+Returns a list of y values.
 $(SIGNATURES)
 """
 function model_by_proximity(mspage::MSPage; siglum = "msA", digits = 3)
