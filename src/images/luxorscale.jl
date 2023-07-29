@@ -50,7 +50,7 @@ end
 a new Luxor `Point` scaled to fit image `rgba_img`
 $(SIGNATURES)
 """
-function pointscaled(pt::Point, rgba_img::Matrix{RGBA{N0f8}}
+function pointscaled(pt::Point, rgba_img::Matrix{RGBA{N0f8}};
     digits = 3)
     @info("Scaling from point $(pt) with ht $(imgheight) and wt $(imgwidth)")
     dimm = dimensions(rgba_img)
