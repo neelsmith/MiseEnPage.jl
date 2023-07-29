@@ -13,7 +13,7 @@ function model_by_proximity(mspage::MSPage; siglum = "msA", digits = 3)
     for i in 1:n-1
         push!(totals, sum(s_heights[1:i]))
     end
-    @info("TOtal heights: ", totals)
+    @info("Total heights: ", totals)
     model = Model(HiGHS.Optimizer)
     @variable(model, yval[i = 1:n])
     @constraint(model, domainlimits, page_top(mspage) .<= yval .<= page_bottom(mspage))
