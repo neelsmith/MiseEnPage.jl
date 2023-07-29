@@ -1,7 +1,7 @@
 
 ```@setup model
 using CitableObject
-pageid = Cite2Urn("urn:cite2:hmt:msA.v1:55r")
+pageid = Cite2Urn("urn:cite2:hmt:msA.v1:44r")
 using MiseEnPage
 pg = msPage(pageid)
 ```

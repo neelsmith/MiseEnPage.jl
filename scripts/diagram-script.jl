@@ -2,7 +2,7 @@ using MiseEnPage
 using CitableObject
 using Luxor
 
-pgurn = Cite2Urn("urn:cite2:hmt:msA.v1:47r")
+pgurn = Cite2Urn("urn:cite2:hmt:msA.v1:44r")
 mspage = msPage(pgurn)
 img = load_rgba(mspage, w = 400)
 

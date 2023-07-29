@@ -1,8 +1,8 @@
 ```@setup viz
 using CitableObject
-pageurn = Cite2Urn("urn:cite2:hmt:msA.v1:55r")
+page_urn = Cite2Urn("urn:cite2:hmt:msA.v1:44r")
 using MiseEnPage
-pg = msPage(pageurn)
+pg = msPage(page_urn)
 ```
 
 # Brief tutorial: visualizing page layout

@@ -52,10 +52,9 @@ iliadbox_luxor
 ### Working with page layout data
 
 ```@docs
-ScholionIliadPair
+MiseEnPage.ScholionIliadPair
 MiseEnPage.pairtexts
 MiseEnPage.iliadboundbox
-MiseEnPage.page_bbox_roi
 MiseEnPage.scholion_heights
 MiseEnPage.scholion_height
 MiseEnPage.scholion_tops
