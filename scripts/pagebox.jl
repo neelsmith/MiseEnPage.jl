@@ -24,7 +24,7 @@ dimm = dimensions(img)
     sethue("blue")
     iliadbox_luxor(mspage, img)
 
-    sethue("silver")
+    sethue("gray")
     commented_lines_luxor(mspage, img)
 
 end  dimm[:w] dimm[:h]

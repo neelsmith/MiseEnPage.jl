@@ -21,6 +21,7 @@ function commented_lines_luxor(mspage::MSPage, imgwidth::Int, imgheight::Int;
     
     scholionpairs = isempty(siglum) || isnothing(siglum) ? textpairs(mspage) : filter(pr -> workid(pr.scholion) == siglum, textpairs(mspage))
 
+    @info("$(length(scholionpairs)) scholia with siglum $(siglum)")
     coordlists = map(pr -> imagefloats(pr.iliadbox), scholionpairs)
 
     for quad in coordlists
