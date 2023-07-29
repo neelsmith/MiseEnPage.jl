@@ -12,7 +12,7 @@ mspage = msPage(pgurn)
 img = load_rgba(mspage, w = 400)
 dimm = dimensions(img)
 
-@info(dimm)
+
 @png begin
     translate(-1 * dimm[:w] / 2,  -1 * dimm[:h] / 2)
     placeimage(img,O)
