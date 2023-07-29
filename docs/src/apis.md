@@ -4,7 +4,7 @@
 ## Exported functions
 
 
-### Modelling and analyzing page layout
+### Modelling page layout
 
 ```@docs
 MSPage
@@ -13,9 +13,20 @@ pageurn
 rv
 imageurn
 iliadlines
-iliadrange, 
+iliadrange
+textpairs
 page_bbox_roi
 iliad_bbox_roi
+```
+
+### Analyzing page layout
+
+```@docs
+PageScore
+score_by_proximity
+score_by_zones
+delimited
+resultsfromdelimited
 ```
 
 ### Documentary images
@@ -28,7 +39,8 @@ dimensions
 ### Composing visualizations with Luxor
 
 ```@docs
-
+pagebox_luxor
+iliadbox_luxor
 ```
 
 ## Functions used internally

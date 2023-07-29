@@ -42,6 +42,14 @@ function iliadrange(mspage::MSPage)::Union{CtsUrn, Nothing}
     end
 end
 
+"""Pairings of scholia with *Iliad* line they comment on
+appearing on page `mspage`.
+$(SIGNATURES)
+"""
+function textpairs(mspage::MSPage)
+    mspage.scholia
+end
+
 """Find a bounding box for the physical page `mspage`
 on a documentary image.
 Returns a named tuple of floats.

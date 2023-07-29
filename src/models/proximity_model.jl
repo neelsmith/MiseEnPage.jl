@@ -3,7 +3,7 @@ Optionally limit consideration to scholia with siglum `siglum`.
 $(SIGNATURES)
 """
 function model_by_proximity(mspage::MSPage; siglum = "msA", digits = 3)
-    scholialist = isempty(siglum) || isnothing(siglum) ? mspage.scholia : filter(pr -> workid(pr.scholion) == siglum, mspage.scholia)
+    scholialist = isempty(siglum) || isnothing(siglum) ? textpairs(mspage) : filter(pr -> workid(pr.scholion) == siglum, textpairs(mspage))
     n = length(scholialist)
     s_heights = scholion_height.(scholialist)
     iliad_ys = iliad_top.(scholialist)

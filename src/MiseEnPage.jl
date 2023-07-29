@@ -32,15 +32,16 @@ include("scoring/scores.jl")
 
 export MSPage, msPage
 export pageurn, rv, imageurn, 
-iliadlines, iliadrange, 
+iliadlines, iliadrange,
+textpairs,
 page_bbox_roi, iliad_bbox_roi
 
 export load_rgba, dimensions
 
 export PageScore
-
-export model_by_proximity
-export model_by_zones
+export model_by_proximity, score_by_proximity
+export model_by_zones, score_by_zones
+export delimited, resultsfromdelimited
 
 
 export pagebox_luxor, iliadbox_luxor

@@ -61,7 +61,10 @@ function boxscaled(boxtuple::NamedTuple{(:left, :top, :right, :bottom), NTuple{4
 end
 
 
-
+"""Create a Luxor `box` command to draw a box on image `img`
+around the physical page illustrated there.
+$(SIGNATURES)
+"""
 function pagebox_luxor(pg::MSPage, img; luxoraction = :stroke)
     coords = pageboxscaled(pg, img)
     ltpt = Point(coords[:left], coords[:top])
@@ -71,7 +74,10 @@ function pagebox_luxor(pg::MSPage, img; luxoraction = :stroke)
 end
 
 
-
+"""Create a Luxor `box` command to draw a box  on image `img`
+around the block of *Iliad* text on page `pg`.
+$(SIGNATURES)
+"""
 function iliadbox_luxor(pg::MSPage, img; luxoraction = :stroke)
     coords = iliadboxscaled(pg, img)
     ltpt = Point(coords[:left], coords[:top])
