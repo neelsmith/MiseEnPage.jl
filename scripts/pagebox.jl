@@ -27,4 +27,9 @@ dimm = dimensions(img)
     sethue("gray")
     commented_lines_luxor(mspage, img)
 
+    sethue("green")
+    plot_actual_y_luxor(mspage, img)
+
+    sethue("red")
+    plot_proximity_y_luxor(mspage, img)
 end  dimm[:w] dimm[:h]

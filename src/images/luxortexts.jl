@@ -1,8 +1,33 @@
 
+function plot_actual_y_luxor(mspage::MSPage, rgba_img::Matrix{RGBA{N0f8}};
+    siglum = "msA", digits = 3, x = 0.6)
+    dimm = dimensions(rgba_img)
+    # Make this take account of recto/verso
+    scaled_x = x * dimm[:w]
+    raw_ys = scholion_tops(mspage; siglum = siglum)
+    scaled_ys = map(y -> y * dimm[:h], raw_ys)
+    for y in scaled_ys
+        circle(Point(scaled_x, y), 3, :fill)
+    end
+end
 
 
+function plot_proximity_y_luxor(mspage::MSPage, rgba_img::Matrix{RGBA{N0f8}};
+    siglum = "msA", digits = 3, x = 0.7)
+    dimm = dimensions(rgba_img)
+    # Make this take account of recto/verso
+    scaled_x = x * dimm[:w]
+ 
+    raw_ys = model_by_proximity(mspage; siglum = siglum)
+    scaled_ys = map(y -> y * dimm[:h], raw_ys)
+    for y in scaled_ys
+        circle(Point(scaled_x, y), 3, :fill)
+    end
+    
+end
 
-""".
+
+"""Mark *Iliad* lines with scholia on diagram.
 $(SIGNATURES)
 """
 function commented_lines_luxor(mspage::MSPage, rgba_img::Matrix{RGBA{N0f8}};
@@ -12,7 +37,7 @@ function commented_lines_luxor(mspage::MSPage, rgba_img::Matrix{RGBA{N0f8}};
 end
 
 
-""".
+"""Mark *Iliad* lines with scholia on diagram.
 $(SIGNATURES)
 """
 function commented_lines_luxor(mspage::MSPage, imgwidth::Int, imgheight::Int;

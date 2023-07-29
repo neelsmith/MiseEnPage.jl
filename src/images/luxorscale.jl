@@ -1,3 +1,30 @@
+"""Scale point `pt` expressed in percentage values to
+a new Luxor `Point` scaled to fit image `rgba_img`
+$(SIGNATURES)
+"""
+function pointscaled(pt::Point, rgba_img::Matrix{RGBA{N0f8}};
+    digits = 3)
+    @info("Scaling from point $(pt) with ht $(imgheight) and wt $(imgwidth)")
+    dimm = dimensions(rgba_img)
+    x = round(pt.x * dimm[:w], digits = digits)
+    y = round(pt.y * dimm[:h], digits = digits)
+    Point(x,y)
+end
+
+
+"""Scale point `pt` expressed in percentage values to
+a new Luxor `Point` scaled to fit the given image dimensions.
+$(SIGNATURES)
+"""
+function pointscaled(pt::Point, 
+    imgwidth::Int,  imgheight::Int;
+    digits = 3)
+    @info("Scaling from point $(pt) with ht $(imgheight) and wt $(imgwidth)")
+
+    x = round(pt.x * imgwidth, digits = digits)
+    y = round(pt.y * imgheight, digits = digits)
+    Point(x,y)
+end
 
 
 """Scale percentage coordinate values in the named tuple `boxtuple` to pixels on the image `rgba_img`. Returns a named tuple of floats.
@@ -30,31 +57,3 @@ function boxscaled(boxtuple::NamedTuple{(:left, :top, :right, :bottom), NTuple{4
     (left = l, top = t, right = r, bottom = b)
 end
 
-
-"""Scale point `pt` expressed in percentage values to
-a new Luxor `Point` scaled to fit the given image dimensions.
-$(SIGNATURES)
-"""
-function pointscaled(pt::Point, 
-    imgwidth::Int,  imgheight::Int;
-    digits = 3)
-    @info("Scaling from point $(pt) with ht $(imgheight) and wt $(imgwidth)")
-
-    x = round(pt.x * imgwidth, digits = digits)
-    y = round(pt.y * imgheight, digits = digits)
-    Point(x,y)
-end
-
-
-"""Scale point `pt` expressed in percentage values to
-a new Luxor `Point` scaled to fit image `rgba_img`
-$(SIGNATURES)
-"""
-function pointscaled(pt::Point, rgba_img::Matrix{RGBA{N0f8}};
-    digits = 3)
-    @info("Scaling from point $(pt) with ht $(imgheight) and wt $(imgwidth)")
-    dimm = dimensions(rgba_img)
-    x = round(pt.x * dimm[:w], digits = digits)
-    y = round(pt.y * dimm[:h], digits = digits)
-    Point(x,y)
-end
