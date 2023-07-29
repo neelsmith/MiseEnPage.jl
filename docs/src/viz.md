@@ -74,7 +74,8 @@ You can mix these in with normal Luxor functions like `sethue` and `setline`, as
      pagebox_luxor(pg, img)
      sethue("blue")
      iliadbox_luxor(pg, img)
-     
+     sethue("gray")
+      commented_lines_luxor(pg, img)
 end dimm[:w] dimm[:h]
 ```
 

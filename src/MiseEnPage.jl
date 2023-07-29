@@ -34,10 +34,10 @@ include("scoring/scores.jl")
 
 export MSPage, msPage
 export pageurn, rv, imageurn, 
-iliadlines, iliadrange,
-textpairs,
-page_bbox_roi, page_top, page_bottom, page_right, page_left,
-iliad_bbox_roi
+    iliadlines, iliadrange,
+    textpairs,
+    page_bbox_roi, page_top, page_bottom, page_right, page_left,
+    iliad_bbox_roi
 
 export load_rgba, dimensions
 
@@ -47,6 +47,7 @@ export model_by_zones, score_by_zones
 export delimited, resultsfromdelimited
 
 
-export pagebox_luxor, iliadbox_luxor
+export pagebox_luxor, iliadbox_luxor,
+    commented_lines_luxor
 
 end # module MiseEnPage
