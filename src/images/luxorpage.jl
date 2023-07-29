@@ -17,47 +17,47 @@ $(SIGNATURES)
 """
 function pageboxscaled(mspage::MSPage, rgba_img::Matrix{RGBA{N0f8}};
     digits = 3)
-    dimm = size(rgba_img)
+    dimm = dimensions(rgba_img)
     @debug("Scale on page + img pair with dimm $(dimm)")
     box = page_bbox_roi(mspage, digits = digits)
-    boxscaled(box, dimm[1], dimm[2]; digits = digits)
+    boxscaled(box, dimm[:w], dimm[:h]; digits = digits)
 end
 
 
 function iliadboxscaled(mspage::MSPage, rgba_img::Matrix{RGBA{N0f8}}; digits = 3)
     box = iliad_bbox_roi(mspage, digits = digits)
     dimm = dimensions(rgba_img)
-    boxscaled(box, dimm[:w], dimm[:h]; digits = digits)
+    boxscaled(box,   dimm[:w], dimm[:h]; digits = digits)
 end
 
 """Scale percentage coordinate values in the named tuple `boxtuple` to pixels on the image `rgba_img`. Returns a named tuple of floats.
 $(SIGNATURES)
 """
 function boxscaled(boxtuple, rgba_img::Matrix{RGBA{N0f8}})
-    dimm = size(rgba_img)
-    boxscaled(boxtuple,dimm[1], dimm[2])
+    dimm = dimensions(rgba_img)
+    boxscaled(boxtuple,dimm[:w], dimm[:h])
 end
 
 """Scale percentage coordinate values in the named tuple `boxtuple` to pixels on the image `rgb_img`. Returns a named tuple of floats.
 $(SIGNATURES)
 """
 function boxscaled(boxtuple, rgb_img::Matrix{RGB{N0f8}})
-    dimm = size(rgb_img)
-    boxscaled(boxtuple,dimm[1], dimm[2])
+    dimm = dimensions(rgb_img)
+    boxscaled(boxtuple,dimm[:w], dimm[:h])
 end
 
 """Scale percentage coordinate values in the named tuple `boxtuple` to pixels on an image with height `imgheight` and width `imgwidth`. Returns a named tuple of floats.
 $(SIGNATURES)
 """
 function boxscaled(boxtuple::NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}, 
-    imgheight::Int, imgwidth::Int;
+    imgwidth::Int,  imgheight::Int;
     digits = 3)
     @info("Scaling from tuple $(boxtuple) with ht $(imgheight) and wt $(imgwidth)")
     t = round(boxtuple[:top] * imgheight, digits = digits)
     l = round(boxtuple[:left] * imgwidth, digits = digits)
     b = round((boxtuple[:bottom]) * imgheight, digits = digits)
     r = round((boxtuple[:right]) * imgwidth, digits = digits)
-    (left = t, top = t, right = r, bottom = b)
+    (left = l, top = t, right = r, bottom = b)
 end
 
 
