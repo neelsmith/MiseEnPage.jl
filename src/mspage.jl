@@ -83,12 +83,21 @@ function load_rgba(mspage::MSPage; alpha = 0.6, w = 600)
     load_rgba(imageurn(mspage); w = w, alpha = alpha)
 end
 
+"""Find height in image percent coordinates of scholia on page.
+$(SIGNATURES)
+"""
+function scholion_heights(mspage::MSPage; siglum = "msA")
+    scholialist = isnothing(siglum) ? textpairs(mspage) : filter(pr -> workid(pr.scholion) == siglum, textpairs(mspage))
+    scholion_height.(scholialist)
+end
+
 
 """Find height in image percent coordinates of scholia on page.
 $(SIGNATURES)
 """
-function scholion_heights(mspage::MSPage)
-    scholion_height.(mspage.scholia)
+function scholion_tops(mspage::MSPage; siglum = "msA")
+    scholialist = isnothing(siglum) ? textpairs(mspage) : filter(pr -> workid(pr.scholion) == siglum, textpairs(mspage))
+    scholion_top.(scholialist)
 end
 
 """Find tops of *Iliad* lines in image percent coordinates of scholia on page.
@@ -98,3 +107,31 @@ function iliad_tops(mspage::MSPage)
     iliad_top.(mspage.scholia)
 end
 
+
+"""Top of page's bounding box.
+$(SIGNATURES)
+"""
+function page_top(mspage::MSPage; digits = 3)
+    page_bbox_roi(mspage; digits = 3)[:top]
+end
+
+"""Bottom of page's bounding box.
+$(SIGNATURES)
+"""
+function page_bottom(mspage::MSPage; digits = 3)
+    page_bbox_roi(mspage; digits = 3)[:bottom]
+end
+
+"""Right edge of page's bounding box.
+$(SIGNATURES)
+"""
+function page_right(mspage::MSPage; digits = 3)
+    page_bbox_roi(mspage; digits = 3)[:right]
+end
+
+"""Left edge of page's bounding box.
+$(SIGNATURES)
+"""
+function page_left(mspage::MSPage; digits = 3)
+    page_bbox_roi(mspage; digits = 3)[:left]
+end

@@ -10,17 +10,28 @@ struct ScholionIliadPair
     lineindex::Union{Int, Nothing}
 end
 
-"""
+"""Height of scholion's bounding box.
+$(SIGNATURES)
 """
 function scholion_height(sipair::ScholionIliadPair; digits = 3)
     coords = imagefloats(sipair.scholionbox)
     @debug("scholion_height: coords are $(coords)")
-    round(coords[4], digits = digits)
+    round(coords[:height], digits = digits)
 end
 
+"""Top of scholion's bounding box.
+$(SIGNATURES)
 """
+function scholion_top(sipair::ScholionIliadPair)
+    coords = imagefloats(sipair.scholionbox)
+    coords[:top]
+end
+
+
+"""Top of *Iliad* text's bounding box.
+$(SIGNATURES)
 """
 function iliad_top(sipair::ScholionIliadPair)
     coords = imagefloats(sipair.iliadbox)
-    coords[2]
+    coords[:top]
 end

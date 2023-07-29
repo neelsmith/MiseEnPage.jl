@@ -34,7 +34,8 @@ export MSPage, msPage
 export pageurn, rv, imageurn, 
 iliadlines, iliadrange,
 textpairs,
-page_bbox_roi, iliad_bbox_roi
+page_bbox_roi, page_top, page_bottom, page_right, page_left,
+iliad_bbox_roi
 
 export load_rgba, dimensions
 

@@ -18,8 +18,8 @@ makedocs(
     pages = [
         "Overview" => "index.md",
         "Systematically evaluating hypotheses" => "scoring.md",
-        "Modelling a page" => "page.md",
         "Brief tutorial: visualizing page layout" => "viz.md",
+        "Modelling a page" => "page.md",
         "API documentation" => "apis.md"
         ]
     )

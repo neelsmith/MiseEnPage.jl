@@ -14,7 +14,7 @@ function model_by_proximity(mspage::MSPage; siglum = "msA", digits = 3)
    
     model = Model(HiGHS.Optimizer)
     @variable(model, yval[i = 1:n])
-    @constraint(model, domainlimits, pagetop(mspage) .<= yval .<= pagebottom(mspage))
+    @constraint(model, domainlimits, page_top(mspage) .<= yval .<= page_bottom(mspage))
     @constraint(model, cumulativeconstraint, yval .>= totals)
 
     @objective(model, Min, sum(yval[i] - iliad_ys[i] for i in 1:n))

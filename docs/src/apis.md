@@ -16,6 +16,10 @@ iliadlines
 iliadrange
 textpairs
 page_bbox_roi
+page_top
+page_bottom
+page_right
+page_left
 iliad_bbox_roi
 ```
 
@@ -48,11 +52,16 @@ iliadbox_luxor
 ### Working with page layout data
 
 ```@docs
+ScholionIliadPair
 MiseEnPage.pairtexts
 MiseEnPage.iliadboundbox
 MiseEnPage.page_bbox_roi
 MiseEnPage.scholion_heights
 MiseEnPage.scholion_height
+MiseEnPage.scholion_tops
+MiseEnPage.scholion_top
+MiseEnPage.iliad_tops
+MiseEnPage.iliad_top
 ```
 
 ### Working with images and Luxor diagrams
