@@ -9,33 +9,25 @@ function model_by_proximity(mspage::MSPage; siglum = "msA", digits = 3)
     s_heights = scholion_height.(scholialist)
     iliad_ys = iliad_top.(scholialist)
     @info("Iliad ys are", iliad_ys)
-    totals = [0.0]
- #=   for i in 1:n-1
-        push!(totals, sum(s_heights[1:i]))
-    end
-    @info("Total heights: ", totals)
-    =#
+    @info("Scholion hts are", s_heights)
+
     model = Model(HiGHS.Optimizer)
     @variable(model, yval[i = 1:n])
     @constraint(model, domainlimits, page_top(mspage) .<= yval .<= page_bottom(mspage))
-
-
-    @variable(model, ceiling[0:n] >= 0)
-    @constraint(model, ceiling[0] == 0)
-    for i in 1:n
-        @constraint(model, ceiling[i-1] + yval[i] == ceiling[i])
+    #@constraint(model, domainlimits, 0 .<= yval .<= 1)
+    
+    
+    for i in 2:n
+        @constraint(model, yval[i] <= yval[i-1] + s_heights[i-1])
     end
-    
-#    @constraint(model, cumulativeconstraint, yval .>= totals + page_top(mspage))
 
-    
 
     @objective(model, Min, sum((yval[i] - iliad_ys[i])^2 for i in 1:n))
     optimize!(model)
     status = termination_status(model)
     if status != OPTIMAL 
         @warn("model_by_proximity: failed to reach optimal result for page $(mspage)")
-        nothing
+        return
     else
         yvallist = value.(yval)
         map(yvallist) do y
