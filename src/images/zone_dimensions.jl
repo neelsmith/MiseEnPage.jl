@@ -6,10 +6,12 @@ EXTERIOR_RECTO_RIGHT = EXTERIOR_RECTO_LEFT + EXTERIOR_WIDTH
 EXTERIOR_VERSO_LEFT = 0.24
 EXTERIOR_VERSO_RIGHT = EXTERIOR_VERSO_LEFT + EXTERIOR_WIDTH
 
-ZONE_TOP = (left = 0.18, top = 0.11, width = 0.61, height = 0.05)
-ZONE_ADJACENT = (left = 0.61, top = 0.17, width = 0.19, height = 0.55 )
-ZONE_BOTTOM = (left = 0.18, top = 0.73, width = 0.61, height = 0.1)
-
+ZONE_TOP = (left = 0.17, top = 0.12, width = 0.62, height = 0.08)
+# urn:cite2:hmt:vaimg.2017a:VA012RN_0013@0.1665,0.1280,0.6176,0.08357
+ZONE_ADJACENT = (left = 0.59, top = 0.21, width = 0.21, height = 0.53 )
+# urn:cite2:hmt:vaimg.2017a:VA012RN_0013@0.5756,0.2086,0.2077,0.5275
+ZONE_BOTTOM = (left = 0.16, top = 0.74, width = 0.63, height = 0.18)
+# urn:cite2:hmt:vaimg.2017a:VA012RN_0013@0.1525,0.7427,0.6310,0.1785
 
 
 """Find location of top zone for scholia in manuscript `siglum`.

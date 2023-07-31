@@ -1,9 +1,12 @@
 using MiseEnPage
 using CitableObject
 using Luxor
+using HmtArchive.Analysis
 
-pgurn = Cite2Urn("urn:cite2:hmt:msA.v1:195r")
-mspage = msPage(pgurn)
+cex = hmt_cex()
+#pgurn = Cite2Urn("urn:cite2:hmt:msA.v1:195r")
+pgurn = Cite2Urn("urn:cite2:hmt:msA.v1:12r")
+mspage = msPage(pgurn; data = cex)
 img = load_rgba(mspage, w = 400)
 dimm = dimensions(img)
 
