@@ -6,7 +6,7 @@ $(SIGNATURES)
 """
 function pageboxscaled(mspage::MSPage; digits = 3)
     img = load_rgba(mspage.pagebounds)
-    @info("Loaded image for $(mspage.pageurn)")
+    @debug("Loaded image for $(mspage.pageurn)")
     pageboxscaled(mspage, img; digits = digits)
 end
 
@@ -33,7 +33,7 @@ function pagebox_luxor(pg::MSPage, img; luxoraction = :stroke)
     coords = pageboxscaled(pg, img)
     ltpt = Point(coords[:left], coords[:top])
     rbpt = Point(coords[:right], coords[:bottom])
-    @info("Boxing points $(ltpt), $(rbpt)")
+    @debug("Boxing points $(ltpt), $(rbpt)")
     box(ltpt, rbpt, action = luxoraction)
 end
 
@@ -61,6 +61,6 @@ function iliadbox_luxor(pg::MSPage, img; luxoraction = :stroke)
     coords = iliadboxscaled(pg, img)
     ltpt = Point(coords[:left], coords[:top])
     rbpt = Point(coords[:right], coords[:bottom])
-    @info("Boxing points $(ltpt), $(rbpt)")
+    @debug("Boxing points $(ltpt), $(rbpt)")
     box(ltpt, rbpt, action = luxoraction)
 end

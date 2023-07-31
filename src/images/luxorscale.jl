@@ -4,7 +4,7 @@ $(SIGNATURES)
 """
 function pointscaled(pt::Point, rgba_img::Matrix{RGBA{N0f8}};
     digits = 3)
-    @info("Scaling from point $(pt) with ht $(imgheight) and wt $(imgwidth)")
+    @debug("Scaling from point $(pt) with ht $(imgheight) and wt $(imgwidth)")
     dimm = dimensions(rgba_img)
     x = round(pt.x * dimm[:w], digits = digits)
     y = round(pt.y * dimm[:h], digits = digits)
@@ -19,7 +19,7 @@ $(SIGNATURES)
 function pointscaled(pt::Point, 
     imgwidth::Int,  imgheight::Int;
     digits = 3)
-    @info("Scaling from point $(pt) with ht $(imgheight) and wt $(imgwidth)")
+    @debug("Scaling from point $(pt) with ht $(imgheight) and wt $(imgwidth)")
 
     x = round(pt.x * imgwidth, digits = digits)
     y = round(pt.y * imgheight, digits = digits)
@@ -49,7 +49,7 @@ $(SIGNATURES)
 function boxscaled(boxtuple::NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}, 
     imgwidth::Int,  imgheight::Int;
     digits = 3)
-    @info("Scaling from tuple $(boxtuple) with ht $(imgheight) and wt $(imgwidth)")
+    @debug("Scaling from tuple $(boxtuple) with ht $(imgheight) and wt $(imgwidth)")
     t = round(boxtuple[:top] * imgheight, digits = digits)
     l = round(boxtuple[:left] * imgwidth, digits = digits)
     b = round((boxtuple[:bottom]) * imgheight, digits = digits)

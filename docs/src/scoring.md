@@ -19,11 +19,11 @@ success_rate(score_default)
 ```
 
 ```@example scores
-score15 = score_by_proximity_y(pg; threshhold = 0.1)
+score_15 = score_by_proximity_y(pg; threshhold = 0.15)
 ```
 
 ```@example scores
-success_rate(score15)
+success_rate(score_15)
 ```
 
 ## Caveats

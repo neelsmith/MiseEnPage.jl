@@ -100,25 +100,29 @@ end
 `dse` is a DSE collection covering those lines.
 $(SIGNATURES)
 """
-function iliadboundbox(iliadlines, dse; digits = 3)::NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}
-    topdse = imagesfortext(iliadlines[1], dse)#[1] |> MiseEnPage.imagefloats
-    if length(topdse) != 1
-        throw(ArgumentError("iliadboundbox: no DSE record found for $(iliadlines[1])"))
-    end
+function iliadboundbox(iliadlines, dse; digits = 3)::Union{Nothing, NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}}
+    if isempty(iliadlines)
+        nothing
+    else
+        topdse = imagesfortext(iliadlines[1], dse)#[1] |> MiseEnPage.imagefloats
+        if length(topdse) != 1
+            throw(ArgumentError("iliadboundbox: no DSE record found for $(iliadlines[1])"))
+        end
 
-    bottomdse = imagesfortext(iliadlines[end], dse)#[1] |> MiseEnPage.
-    if length(bottomdse) != 1
-        throw(ArgumentError("iliadboundbox: no DSE record found for $(iliadlines[end])"))
-    end
+        bottomdse = imagesfortext(iliadlines[end], dse)#[1] |> MiseEnPage.
+        if length(bottomdse) != 1
+            throw(ArgumentError("iliadboundbox: no DSE record found for $(iliadlines[end])"))
+        end
 
-    topbox = topdse[1] |> MiseEnPage.imagefloats
-    @debug("Top box on $(iliadlines[1]) is $(topbox)")
-    bottombox = bottomdse[end] |> MiseEnPage.imagefloats
-    @debug("Bottom box on $(iliadlines[end]) is $(bottombox)")
-    lft = min(topbox[1], bottombox[1])
-    rghtraw = max(topbox[1] + topbox[3], bottombox[1] + bottombox[3])
-    rght = round(rghtraw, digits = digits)
-    top = topbox[2]
-    bottom = round(bottombox[2] + bottombox[4], digits = digits)
-    (left = lft, top = top, right = rght, bottom = bottom)
+        topbox = topdse[1] |> MiseEnPage.imagefloats
+        @debug("Top box on $(iliadlines[1]) is $(topbox)")
+        bottombox = bottomdse[end] |> MiseEnPage.imagefloats
+        @debug("Bottom box on $(iliadlines[end]) is $(bottombox)")
+        lft = min(topbox[1], bottombox[1])
+        rghtraw = max(topbox[1] + topbox[3], bottombox[1] + bottombox[3])
+        rght = round(rghtraw, digits = digits)
+        top = topbox[2]
+        bottom = round(bottombox[2] + bottombox[4], digits = digits)
+        (left = lft, top = top, right = rght, bottom = bottom)
+    end
 end

@@ -1,11 +1,10 @@
 using MiseEnPage
 using CitableObject
 using Luxor
+using HmtArchive.Analysis
 
 outputdir = joinpath(pwd(), "scratch","imgs")
-
-
-
+inputcex = hmt_cex()
 
 function pngthis(mspage::MSPage, img, outdir)
     @info("Draw png for $(pageurn(mspage))...")
@@ -21,14 +20,14 @@ function pngthis(mspage::MSPage, img, outdir)
     finish()
 end
 
-function pngpage(pgurn::Cite2Urn, outdir)
-    mspage = msPage(pgurn)
+function pngpage(pgurn::Cite2Urn, outdir; data = inputcex)
+    mspage = msPage(pgurn; data = data)
     img = load_rgba(mspage, w = 600)
     pngthis(mspage, img, outdir)
 
 end
 
-
+src = hmt_cex()
 filelist = "/Users/nsmith/Dropbox/__hmt/noerrors.cex"
 pglist =  map(readlines(filelist)) do row
     if isempty(row)
@@ -40,12 +39,8 @@ pglist =  map(readlines(filelist)) do row
 end
 
 filtered = filter(p -> ! isnothing(p), pglist)
+
 for pgurn in filtered
-
     @info("Png page $(pgurn)")
-    pngpage(pgurn, outputdir)
+    @time pngpage(pgurn, outputdir)
 end
-
-
-
-pngpage(Cite2Urn("urn:cite2:hmt:msA.v1:36v"), outputdir)
