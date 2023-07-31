@@ -43,7 +43,8 @@ iliad_bbox_roi(pg)
 
 ## Text pairs
 
-The `MSPage` object also includes a vector of `MiseEnPage.ScholionIliadPair`s.  This is a type that 
+The `MSPage` object also includes a vector of `MiseEnPage.ScholionIliadPair`s.  This type documents the relations of a scholion to an *Iliad* passage. The API documentation includes functions used internally to work with this structure.
+
 
 ```@example model
 textpairs(pg)
