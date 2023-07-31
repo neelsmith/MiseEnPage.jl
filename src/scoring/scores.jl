@@ -28,13 +28,22 @@ end
 """Score number of scholia correctly placed on page using proximity model. Optionally specify siglum of scholia to model. If `siglum` is `nothing`, include all scholia.
 $(SIGNATURES)
 """
-function score_by_proximity(mspage::MSPage; threshold = 0.1, siglum = "msA")#::PageScore
+function score_by_proximity_y(mspage::MSPage; threshhold = 0.1, siglum = "msA")#::PageScore
   
-    predicted_ys = model_by_proximity(mspage; siglum = siglum)
+    predicted_ys = model_by_proximity_y(mspage; siglum = siglum)
     actual_ys = scholion_tops(mspage; siglum = siglum)
+    sheep = 0
+    goats = 0
     for (i, y) in enumerate(predicted_ys)
-        println(y, " => ", actual_ys[i])
+        absdiff = round(abs(actual_ys[i] - y), digits = 3)
+        println(y, " => ", actual_ys[i], " diff ", absdiff)
+        if  absdiff > threshhold
+            goats = goats + 1
+        else
+            sheep = sheep + 1
+        end
     end
+    PageScore(pageurn(mspage), sheep, goats)
 end
 
 

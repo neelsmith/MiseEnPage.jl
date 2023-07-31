@@ -47,7 +47,7 @@ export pageurn, rv, imageurn,
 export load_rgba, dimensions
 
 export PageScore
-export model_by_proximity, score_by_proximity
+export model_by_proximity_y, score_by_proximity_y
 export model_by_zones, score_by_zones
 export delimited, resultsfromdelimited
 

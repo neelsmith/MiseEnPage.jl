@@ -33,7 +33,7 @@ function plot_proximity_y_luxor(mspage::MSPage, rgba_img::Matrix{RGBA{N0f8}};
     x = rv(mspage) == :recto ?  EXTERIOR_RECTO_LEFT + nudge :  EXTERIOR_VERSO_LEFT + nudge
     scaled_x = x * dimm[:w]
 
-    raw_ys = model_by_proximity(mspage; siglum = siglum)
+    raw_ys = model_by_proximity_y(mspage; siglum = siglum)
     scaled_ys = map(y -> y * dimm[:h], raw_ys)
     for (i, y) in enumerate(scaled_ys)
         centerpt = Point(scaled_x, y)

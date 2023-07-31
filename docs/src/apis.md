@@ -27,7 +27,7 @@ iliad_bbox_roi
 
 ```@docs
 PageScore
-score_by_proximity
+score_by_proximity_y
 score_by_zones
 delimited
 resultsfromdelimited
