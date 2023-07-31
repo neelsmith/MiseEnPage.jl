@@ -1,20 +1,30 @@
 
-function visualize_proximity_draw(pg::MSPage, img::Matrix{RGBA{N0f8}})
+"""Draw in an interactive Luxor environment a diagram of the y alignment of scholia for page `pg` according to the promixity model.
+$(SIGNATURES)
+"""
+function visualize_proximity_y_draw(pg::MSPage, img::Matrix{RGBA{N0f8}})
     dimm = dimensions(img)
     @draw begin
-        visualize_proximity_luxor(pg, img)
+        visualize_proximity_y_luxor(pg, img)
     end dimm[:w] dimm[:h]
 end
 
-
-function visualize_proximity_png(pg::MSPage, img::Matrix{RGBA{N0f8}})
+"""Save a diagram of the y alignment of scholia for page `pg` according to the promixity model as a `png` file.
+$(SIGNATURES)
+"""
+function visualize_proximity_y_png(pg::MSPage, img::Matrix{RGBA{N0f8}})
     dimm = dimensions(img)
     @png begin
-        visualize_proximity_luxor(pg, img)
+        visualize_proximity_y_luxor(pg, img)
     end dimm[:w] dimm[:h]
 end
 
-function visualize_proximity_luxor(mspage::MSPage, img::Matrix{RGBA{N0f8}})
+
+"""Compose a Luxor diagram of the y alignment of scholia for page `pg` according to the promixity model. This
+code will only work within a Luxor drawing context.
+$(SIGNATURES)
+"""
+function visualize_proximity_y_luxor(mspage::MSPage, img::Matrix{RGBA{N0f8}})
     dimm = dimensions(img)
     translate(-1 * dimm[:w] / 2,  -1 * dimm[:h] / 2)
     placeimage(img,O)

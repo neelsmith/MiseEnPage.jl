@@ -17,7 +17,7 @@ function pngthis(mspage::MSPage, img, outdir)
     Drawing(dimm[:w], dimm[:h], outputfile)
     origin() 
     background("white") # hide
-    MiseEnPage.visualize_proximity_luxor(mspage, img)
+    MiseEnPage.visualize_proximity_y_luxor(mspage, img)
     finish()
 end
 

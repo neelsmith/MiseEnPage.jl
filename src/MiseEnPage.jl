@@ -52,7 +52,7 @@ export model_by_zones, score_by_zones
 export delimited, resultsfromdelimited
 
 
-export visualize_proximity_draw, visualize_proximity_png 
+export visualize_proximity_y_draw, visualize_proximity_y_png 
 export pagebox_luxor, iliadbox_luxor
 export commented_lines_luxor
 export plot_actual_y_luxor, plot_proximity_y_luxor

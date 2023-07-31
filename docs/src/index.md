@@ -33,5 +33,5 @@ Load a documentary image for the page, use it to visualize the page's layout pro
 img = load_rgba(pg; w = 400)
 
 using Luxor
-visualize_proximity_draw(pg, img)
+visualize_proximity_y_draw(pg, img)
 ```
