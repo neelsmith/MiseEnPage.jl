@@ -26,7 +26,7 @@ Now score the "proximity" hypothesis.
 score_by_proximity_y(pg)
 ```
 
-Load a documentary image for the page, and visualize the page's layout under the proximity hypothesis compared to the actual layout.  (This last step requires the `Luxor` graphics package.)
+Load a documentary image for the page, and visualize the page's layout under the proximity hypothesis compared to the actual layout.  (This last step requires the `Luxor` graphics package.) Orange dots show the y value for the model's placment of scolia; green dots show the recorded y value for the scholia.
 
 
 ```@example intro
