@@ -7,6 +7,25 @@ struct PageScore
     failures::Int
 end
 
+function pageurn(score::PageScore)
+    score.pgurn
+end
+function successes(score::PageScore)
+    score.successes
+end
+function failures(score::PageScore)
+    score.failures
+end
+
+function total(score::PageScore)
+    score.failures + score.successes
+end
+
+
+function success_rate(score::PageScore)
+    round(score.successes / total(score), digits = 3)
+end
+
 """Serialize score for a single page.
 $(SIGNATURES)
 """
@@ -36,7 +55,7 @@ function score_by_proximity_y(mspage::MSPage; threshhold = 0.1, siglum = "msA")#
     goats = 0
     for (i, y) in enumerate(predicted_ys)
         absdiff = round(abs(actual_ys[i] - y), digits = 3)
-        println(y, " => ", actual_ys[i], " diff ", absdiff)
+        @debug(y, " => ", actual_ys[i], " diff ", absdiff)
         if  absdiff > threshhold
             goats = goats + 1
         else
