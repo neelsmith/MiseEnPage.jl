@@ -5,8 +5,6 @@ using Luxor
 outputdir = joinpath(pwd(), "scratch","imgs")
 
 
-
-
 function pngthis(mspage::MSPage, img, outdir)
     @info("Draw png for $(pageurn(mspage))...")
     dimm = dimensions(img)
@@ -45,7 +43,3 @@ for pgurn in filtered
     @info("Png page $(pgurn)")
     pngpage(pgurn, outputdir)
 end
-
-
-
-pngpage(Cite2Urn("urn:cite2:hmt:msA.v1:36v"), outputdir)
