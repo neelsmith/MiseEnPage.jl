@@ -29,9 +29,14 @@ iliad_bbox_roi
 PageScore
 score_by_proximity_y
 score_by_zones
+successes
+failures
+total
+success_rate
 delimited
 resultsfromdelimited
 ```
+
 
 ### Documentary images
 

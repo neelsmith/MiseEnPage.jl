@@ -7,21 +7,40 @@ struct PageScore
     failures::Int
 end
 
+
+"""URN of page scored.
+$(SIGNATURES)
+"""
 function pageurn(score::PageScore)
     score.pgurn
 end
+
+"""Number of scholia successfully modeled.
+$(SIGNATURES)
+"""
 function successes(score::PageScore)
     score.successes
 end
+
+"""Number of scholia unsuccessfully modeled.
+$(SIGNATURES)
+"""
 function failures(score::PageScore)
     score.failures
 end
 
+
+"""Total number of scholia on page.
+$(SIGNATURES)
+"""
 function total(score::PageScore)
     score.failures + score.successes
 end
 
 
+"""Success rate of model's layout (0.0:1.0).
+$(SIGNATURES)
+"""
 function success_rate(score::PageScore)
     round(score.successes / total(score), digits = 3)
 end

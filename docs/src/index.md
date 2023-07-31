@@ -10,7 +10,7 @@ To analyze the layout of a manuscript page, identify the page by `Cite2Urn`. You
 
 ```@example intro
 using CitableObject
-pageid = Cite2Urn("urn:cite2:hmt:msA.v1:44r")
+pageid = Cite2Urn("urn:cite2:hmt:msA.v1:112r")
 ```
 
 Assemble all information necessary to analyze the page's layout in a `MSPage` object.
@@ -23,10 +23,10 @@ pg = msPage(pageid)
 Now score the "proximity" hypothesis.
 
 ```@example intro
-# Woohoo score function invoked here
+score_by_proximity_y(pg)
 ```
 
-Load a documentary image for the page, use it to visualize the page's layout proximity hypothesis compared to the actual layout.  (This last step requires the `Luxor` graphics package.)
+Load a documentary image for the page, and visualize the page's layout under the proximity hypothesis compared to the actual layout.  (This last step requires the `Luxor` graphics package.)
 
 
 ```@example intro
