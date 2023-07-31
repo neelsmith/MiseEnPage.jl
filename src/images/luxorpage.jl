@@ -64,3 +64,7 @@ function iliadbox_luxor(pg::MSPage, img; luxoraction = :stroke)
     @debug("Boxing points $(ltpt), $(rbpt)")
     box(ltpt, rbpt, action = luxoraction)
 end
+
+
+function zonesboxed_luxor(pg::MSPage, img; luxoraction = :stroke)
+end

@@ -66,6 +66,9 @@ MiseEnPage.scholion_tops
 MiseEnPage.scholion_top
 MiseEnPage.iliad_tops
 MiseEnPage.iliad_top
+MiseEnPage.topzone_box
+MiseEnPage.adjacentzone_box
+MiseEnPage.bottomzone_box
 ```
 
 ### Working with images and Luxor diagrams
