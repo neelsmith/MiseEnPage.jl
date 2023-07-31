@@ -1,11 +1,4 @@
 
-# Reasonable defaults for column boundaries.
-EXTERIOR_WIDTH = 0.22
-EXTERIOR_RECTO_LEFT = 0.58
-EXTERIOR_RECTO_RIGHT = EXTERIOR_RECTO_LEFT + EXTERIOR_WIDTH
-EXTERIOR_VERSO_LEFT = 0.24
-EXTERIOR_VERSO_RIGHT = EXTERIOR_VERSO_LEFT + EXTERIOR_WIDTH
-
 """Plot actual y alignment of scholia on page `mspage`.
 $(SIGNATURES)
 """

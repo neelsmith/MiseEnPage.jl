@@ -1,7 +1,7 @@
 name = "MiseEnPage"
 uuid = "92bda1c4-f68c-458d-a0a7-9475acb83902"
 authors = ["Neel Smith <dnsmith.neel@gmail.com>"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 CitableBase = "d6f014bd-995c-41bd-9893-703339864534"
