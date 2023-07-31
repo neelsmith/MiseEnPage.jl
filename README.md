@@ -3,7 +3,7 @@
 Analyze the layout of manuscript pages edited following the conventions of the Homer Multitext project.
 
 
-
+![page 195 recto](./195r.png)
 
 ## Acknowledgments
 
