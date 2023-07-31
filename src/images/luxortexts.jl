@@ -10,7 +10,7 @@ EXTERIOR_VERSO_RIGHT = EXTERIOR_VERSO_LEFT + EXTERIOR_WIDTH
 $(SIGNATURES)
 """
 function plot_actual_y_luxor(mspage::MSPage, rgba_img::Matrix{RGBA{N0f8}};
-    siglum = "msA", digits = 3, diam = 2, nudge = 0.1)
+    siglum = "msA", diam = 2, nudge = 0.1)
     dimm = dimensions(rgba_img)
     
     x = rv(mspage) == :recto ?  EXTERIOR_RECTO_LEFT + nudge :  EXTERIOR_VERSO_LEFT + nudge
@@ -27,20 +27,27 @@ end
 $(SIGNATURES)
 """
 function plot_proximity_y_luxor(mspage::MSPage, rgba_img::Matrix{RGBA{N0f8}};
-    siglum = "msA", digits = 3, diam = 2, nudge = 0.05)
+    siglum = "msA", diam = 2, nudge = 0.05)
     dimm = dimensions(rgba_img)
-    
     
     x = rv(mspage) == :recto ?  EXTERIOR_RECTO_LEFT + nudge :  EXTERIOR_VERSO_LEFT + nudge
     scaled_x = x * dimm[:w]
 
     raw_ys = model_by_proximity(mspage; siglum = siglum)
     scaled_ys = map(y -> y * dimm[:h], raw_ys)
-    for y in scaled_ys
-        circle(Point(scaled_x, y), diam, :fill)
+    for (i, y) in enumerate(scaled_ys)
+        centerpt = Point(scaled_x, y)
+        circle(centerpt, diam, :fill)
+        boxcoords = textpairs(mspage)[i].scholionbox |> imagefloats
+        #tickbox(centerpt, boxcoords, dimm[:h])
     end
 end
 
+function tickbox(pt, coords, h)
+    @debug("Tickbox with height $(coords[:height])")
+    pt2 = Point(pt.x, pt.y + h*coords[:height])
+    line(pt,pt2,:stroke)
+end
 
 """Diagram *Iliad* lines with scholia on page `mspage`.
 $(SIGNATURES)
