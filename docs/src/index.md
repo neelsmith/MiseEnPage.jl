@@ -23,10 +23,15 @@ pg = msPage(pageid)
 Now score the "proximity" hypothesis.
 
 ```@example intro
-score_by_proximity_y(pg)
+pagescore = score_by_proximity_y(pg)
 ```
 
-Load a documentary image for the page, and visualize the page's layout under the proximity hypothesis compared to the actual layout.  (This last step requires the `Luxor` graphics package.) Orange dots show the y value for the model's placment of scolia; green dots show the recorded y value for the scholia.
+
+```@example intro
+success_rate(pagescore)
+```
+
+Load a documentary image for the page, and visualize the page's layout under the proximity hypothesis compared to the actual layout.  (This last step requires the `Luxor` graphics package.) Gray dots mark *Iliad* lines that scholia comment on; orange dots show the y value for the placment of scholia using the proximity model; green dots show the recorded y value for the scholia.
 
 
 ```@example intro
