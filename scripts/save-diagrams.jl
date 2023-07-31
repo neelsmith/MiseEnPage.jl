@@ -28,7 +28,7 @@ end
 
 
 filelist = "/Users/nsmith/Dropbox/__hmt/noerrors.cex"
-pglist =  map(readlines(filelist)) do row
+pglist =  map(readlines(filelist)[60:end]) do row
     if isempty(row)
         nothing
     else
