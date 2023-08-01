@@ -20,26 +20,41 @@ begin
 	using JuMP
 	using HiGHS
 	using Luxor
+	using ColorSchemes
 	using PlutoUI
 end
 
-# ╔═╡ 254f3d34-3063-11ee-1923-3f34b8bae22e
-md"""# Demonstration of page layout algorithm"""
+# ╔═╡ 2e0b9dc8-c319-4aad-89f4-8240267bb007
+md"*To see the julia environment, unhide the following cell.*"
 
-# ╔═╡ bece489d-23ba-42a2-a3fc-c850ed7f48a2
-#@bind recompute Button("Recompute model")
+# ╔═╡ 254f3d34-3063-11ee-1923-3f34b8bae22e
+md"""# Demonstration of page layout algorithm
+
+## The problem
+
+> We have a page of text with an adjacent column for notes. We want to place the notes in the adjacent column as close as possible to the line the note comments on without overlapping any other notes.
+> 
+> We will work with two predetermined data lists of the same length: one gives the location of annotated text lines in the y axis of the page, and the other gives height required for the text of each note.
+
+"""
+
+# ╔═╡ be329638-2075-4738-a131-25dfabc57c44
+md"""### Data
+
+> We express the y values of text lines and the heights of notes on a scale of 0 to 1.  In diagramming the solution, we'll scale them according to the size you choose for the page height.
+"""
+
+# ╔═╡ 51e7221e-03d2-4d51-808f-8dadbe0839fc
+target_lines = [0.2, 0.24, 0.4]
+
+# ╔═╡ 308d4c18-0c0a-4b03-a518-58fbab48380e
+note_heights = [0.05, 0.05, 0.12]
+
+# ╔═╡ 8901dbb6-7633-4cb9-9afb-24ace43bca22
+md"""*Compute model for `n` footnotes where* `n` = $(@bind n Slider(0:length(target_lines), default = 0, show_value=true))"""
 
 # ╔═╡ 1c47db7f-66c6-40e3-b35c-8d26a94c6735
 md"""*Page height* $(@bind page_h Slider(100:50:1000, default = 200, show_value=true))"""
-
-# ╔═╡ 51e7221e-03d2-4d51-808f-8dadbe0839fc
-target_ys = [0.2, 0.21, 0.4]
-
-# ╔═╡ 8901dbb6-7633-4cb9-9afb-24ace43bca22
-md"""*Compute model for `n` footnotes where* `n` = $(@bind n Slider(0:length(target_ys), default = 0, show_value=true))"""
-
-# ╔═╡ 308d4c18-0c0a-4b03-a518-58fbab48380e
-note_heights = [0.1, 0.05, 0.12]
 
 # ╔═╡ 5a1efd78-d50a-459b-8fec-06cae066c319
 md"""## Optimization
@@ -83,6 +98,12 @@ textbox = (top = 0.15, left = 0.1, bottom = 0.9, right = 0.7)
 # ╔═╡ c31f647c-b4ab-4056-b31b-69dd0a102319
 noteswidth = (left = 0.75, right = 0.9)
 
+# ╔═╡ e0415fd4-25ee-41e4-9267-8fc3250f0fae
+palette = ColorSchemes.tableau_traffic
+
+# ╔═╡ acb6ba0f-63ea-46db-96ea-29daf5d47209
+md"""> **Luxor drawing functions**"""
+
 # ╔═╡ 428b9957-2b3c-49f1-ba34-7b5ac81af8e1
 """Draw a box for the coordinates of global `textbox` scaled to the
 given `x` and `y` dimensions."""	
@@ -113,15 +134,40 @@ end
 """Draw lines in text box at y heights given in `targetlist`, scaled to
 `x` and `y`.
 """
-function targetlines_luxor(targetlist, x,y; luxaction = :stroke, nudge = 0.02)
-	for tgt in targetlist
+function targetlines_luxor(targetlist, x,y; linehue = "gray", dotcolors = ColorSchemes.tol_light.colors, luxaction = :stroke, nudge = 0.02)
+	for (i, tgt) in enumerate(targetlist)
 		pt_l = Point(textbox[:left] * x + x*nudge, tgt * y)
 		pt_r = Point(textbox[:right] * x - x*nudge, tgt * y)
+		sethue(linehue)
 		line(pt_l, pt_r, action = luxaction)
-
+		dothueidx = mod(i, length(dotcolors)) + 1
+		sethue(dotcolors[dothueidx])
 		middle_x = (pt_l.x + pt_r.x) / 2
 		midpt = Point(middle_x, tgt * y)
 		circle(midpt, 3, :fill)
+	end
+end
+
+# ╔═╡ 1ddc115d-faed-41eb-af77-aa9ba4d64ca0
+"Diagram location of notes on page."
+function notesplacement_luxor(note_ys, hts, x, y; dotcolors = palette, coldimm = noteswidth, nudge = 0.02)
+	midpt = (noteswidth[:right] + noteswidth[:left]) / 2
+	setdash("dot")
+	for (i, note_y) in enumerate(note_ys)
+		dothueidx = mod(i, length(dotcolors)) + 1
+		sethue(dotcolors[dothueidx])
+		
+		pt = Point(midpt * x, note_y * y)
+		circle(pt, 3, :fill)
+		
+		lft = coldimm[:left] + nudge
+		rght = coldimm[:right] - nudge
+		btm = note_y + hts[i]
+	
+		lt = Point(lft * x, note_y * y)
+		rb = Point(rght * x, btm * y)
+		box(lt, rb, :stroke)	
+		
 	end
 end
 
@@ -133,8 +179,8 @@ begin
 		nothing
 	else
 		@draw begin
-			ylist = compute_ys(target_ys[1:n], note_heights[1:n])
-			circle(O, 2, :fill)
+			ylist = compute_ys(target_lines[1:n], note_heights[1:n])
+			
 			translate(-1 * page_w / 2,  -1 * page_h / 2)
 
 			sethue("skyblue")
@@ -144,13 +190,14 @@ begin
 			
 			sethue("seashell3")
 			setdash("solid")
+			setline(2)
 			textframe_luxor(page_w, page_h)
 			notesframe_luxor(page_w, page_h)
 
 			
-			targetlines_luxor(target_ys, page_w, page_h)
+			targetlines_luxor(target_lines[1:n], page_w, page_h, linehue = "seashell3", dotcolors = palette)
 		
-	
+			notesplacement_luxor(ylist, note_heights, page_w, page_h, dotcolors = palette)
 			
 		end page_w page_h
 	end
@@ -159,12 +206,14 @@ end
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
+ColorSchemes = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
 HiGHS = "87dc4568-4c63-4d18-b0c0-bb2238e4078b"
 JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
 Luxor = "ae8d54c2-7ccd-5906-9d76-62fc9837b5bc"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
+ColorSchemes = "~3.22.0"
 HiGHS = "~1.5.2"
 JuMP = "~1.13.0"
 Luxor = "~3.7.0"
@@ -177,7 +226,7 @@ PLUTO_MANIFEST_TOML_CONTENTS = """
 
 julia_version = "1.9.1"
 manifest_format = "2.0"
-project_hash = "5342e8bb075ffb18c5877e5cb17444cb42abe88e"
+project_hash = "5654edcbf53ac73e8d5888bc31e80117accf4210"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -231,11 +280,27 @@ git-tree-sha1 = "02aa26a4cf76381be7f66e020a3eddeb27b0a092"
 uuid = "944b1d66-785c-5afd-91f1-9de20f533193"
 version = "0.7.2"
 
+[[deps.ColorSchemes]]
+deps = ["ColorTypes", "ColorVectorSpace", "Colors", "FixedPointNumbers", "PrecompileTools", "Random"]
+git-tree-sha1 = "dd3000d954d483c1aad05fe1eb9e6a715c97013e"
+uuid = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
+version = "3.22.0"
+
 [[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
 git-tree-sha1 = "eb7f0f8307f71fac7c606984ea5fb2817275d6e4"
 uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
 version = "0.11.4"
+
+[[deps.ColorVectorSpace]]
+deps = ["ColorTypes", "FixedPointNumbers", "LinearAlgebra", "Requires", "Statistics", "TensorCore"]
+git-tree-sha1 = "a1f44953f2382ebb937d60dafbe2deea4bd23249"
+uuid = "c3611d14-8923-5661-9e6a-0046d554d3a4"
+version = "0.10.0"
+weakdeps = ["SpecialFunctions"]
+
+    [deps.ColorVectorSpace.extensions]
+    SpecialFunctionsExt = "SpecialFunctions"
 
 [[deps.Colors]]
 deps = ["ColorTypes", "FixedPointNumbers", "Reexport"]
@@ -310,10 +375,10 @@ uuid = "c87230d0-a227-11e9-1b43-d7ebe4e7570a"
 version = "0.4.1"
 
 [[deps.FFMPEG_jll]]
-deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "JLLWrappers", "LAME_jll", "Libdl", "Ogg_jll", "OpenSSL_jll", "Opus_jll", "PCRE2_jll", "Zlib_jll", "libaom_jll", "libass_jll", "libfdk_aac_jll", "libvorbis_jll", "x264_jll", "x265_jll"]
-git-tree-sha1 = "b8660105ccaff705c70894c5f1e24f5c18974220"
+deps = ["Artifacts", "Bzip2_jll", "FreeType2_jll", "FriBidi_jll", "JLLWrappers", "LAME_jll", "Libdl", "Ogg_jll", "OpenSSL_jll", "Opus_jll", "PCRE2_jll", "Pkg", "Zlib_jll", "libaom_jll", "libass_jll", "libfdk_aac_jll", "libvorbis_jll", "x264_jll", "x265_jll"]
+git-tree-sha1 = "74faea50c1d007c85837327f6775bea60b5492dd"
 uuid = "b22a6f82-2f65-5046-a5b2-351ab43fb4e5"
-version = "4.4.4+0"
+version = "4.4.2+2"
 
 [[deps.FileIO]]
 deps = ["Pkg", "Requires", "UUIDs"]
@@ -660,9 +725,9 @@ version = "0.8.1+0"
 
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl"]
-git-tree-sha1 = "cae3153c7f6cf3f069a853883fd1919a6e5bab5b"
+git-tree-sha1 = "1aa4b74f80b01c6bc2b89992b861b5f210e665b5"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "3.0.9+0"
+version = "1.1.21+0"
 
 [[deps.OpenSpecFun_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -694,9 +759,9 @@ version = "1.50.9+0"
 
 [[deps.Parsers]]
 deps = ["Dates", "PrecompileTools", "UUIDs"]
-git-tree-sha1 = "716e24b21538abc91f6205fd1d8363f39b442851"
+git-tree-sha1 = "4b2e829ee66d4218e0cef22c0a64ee37cf258c29"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.7.2"
+version = "2.7.1"
 
 [[deps.Pixman_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "LLVMOpenMP_jll", "Libdl"]
@@ -816,6 +881,12 @@ version = "1.0.3"
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
 version = "1.10.0"
+
+[[deps.TensorCore]]
+deps = ["LinearAlgebra"]
+git-tree-sha1 = "1feb45f88d133a655e001435632f019a9a1bcdb6"
+uuid = "62fd8b95-f654-4bbd-a8a5-9c27f68ccd50"
+version = "0.1.1"
 
 [[deps.Test]]
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
@@ -980,14 +1051,15 @@ version = "3.5.0+0"
 """
 
 # ╔═╡ Cell order:
-# ╠═3de0bb5a-a0b6-4c71-b773-d5dd472926bf
+# ╟─2e0b9dc8-c319-4aad-89f4-8240267bb007
+# ╟─3de0bb5a-a0b6-4c71-b773-d5dd472926bf
 # ╟─254f3d34-3063-11ee-1923-3f34b8bae22e
-# ╟─8901dbb6-7633-4cb9-9afb-24ace43bca22
-# ╠═bece489d-23ba-42a2-a3fc-c850ed7f48a2
-# ╟─1c47db7f-66c6-40e3-b35c-8d26a94c6735
-# ╠═fbdf4269-f89a-430b-86b5-7198089ac3cb
+# ╟─be329638-2075-4738-a131-25dfabc57c44
 # ╠═51e7221e-03d2-4d51-808f-8dadbe0839fc
 # ╠═308d4c18-0c0a-4b03-a518-58fbab48380e
+# ╟─8901dbb6-7633-4cb9-9afb-24ace43bca22
+# ╟─1c47db7f-66c6-40e3-b35c-8d26a94c6735
+# ╟─fbdf4269-f89a-430b-86b5-7198089ac3cb
 # ╟─5a1efd78-d50a-459b-8fec-06cae066c319
 # ╟─9d805121-a0eb-445b-bf3f-94c770954aa8
 # ╟─4fc7bab2-6a87-4afd-992c-4691aaf2c80a
@@ -995,9 +1067,12 @@ version = "3.5.0+0"
 # ╠═c9f57954-a908-4b16-a038-8766e3f23e8c
 # ╠═0f670060-6c4d-4c43-9eab-12fd53ec710b
 # ╠═c31f647c-b4ab-4056-b31b-69dd0a102319
+# ╠═e0415fd4-25ee-41e4-9267-8fc3250f0fae
+# ╟─acb6ba0f-63ea-46db-96ea-29daf5d47209
 # ╟─428b9957-2b3c-49f1-ba34-7b5ac81af8e1
 # ╟─7169b020-09c8-43e5-ba0f-5b0356f7b1ec
 # ╟─4ac0b8b3-d637-4f09-911d-c4cd727d9e8a
 # ╟─96c45466-5dd3-4da9-8f12-6bba9d0a4af3
+# ╟─1ddc115d-faed-41eb-af77-aa9ba4d64ca0
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
