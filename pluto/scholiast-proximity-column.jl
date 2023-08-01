@@ -73,7 +73,7 @@ html"""
 md"""> **Data**"""
 
 # ╔═╡ 0350d11c-2136-4fc2-80e4-c2dda57a4ca9
-"""User's values for heights of *scholia* attached to *Iliad* lines."""
+"""User's values for heights of *scholia* attached to *Iliad* lines, given in percentages."""
 heights = [ ln1, ln2, ln3, ln4, ln5, ln6, ln7, ln8, ln9, ln10,
 	ln11, ln12, ln13, ln14, ln15, ln16, ln17, ln18, ln19, ln20,
 	ln21, ln22, ln23, ln24
@@ -216,7 +216,7 @@ function iliad_lines(; linehue = "gray", dotcolors = ColorSchemes.tol_light.colo
 	lncount = length(heights)
 	txtht = (textbox[:bottom] - textbox[:top]) * page_h
 	spacing = txtht / (lncount + 1)
-
+	scholiaseen =  0
 	
 	for i in 1:lncount
 		y = i * spacing + textbox[:top] * page_h
@@ -227,12 +227,16 @@ function iliad_lines(; linehue = "gray", dotcolors = ColorSchemes.tol_light.colo
 
 		if heights[i] > 0
 			linemiddle = Point(textmidpt * page_w, y)
-			dothueidx = mod(i, length(dotcolors)) + 1
-			sethue(dotcolors[dothueidx])
+			
+			scholiaseen = scholiaseen + 1
+			dothueidx = mod(scholiaseen, length(dotcolors)) + 1
+			currenthue = dotcolors[dothueidx]
+			sethue(currenthue)
+			
+			text("$(dothueidx)", linemiddle)
 			circle(linemiddle, scaleddot(), :fill)
 		end
 	end
-		
 end
 
 # ╔═╡ d05ebdb7-a29c-4cc3-9415-53c846f016fb
@@ -260,6 +264,26 @@ target_ys = begin
 	tgts
 end
 
+# ╔═╡ d58f0c1c-8b6d-4665-826d-fb1245ca1e1b
+# ╠═╡ show_logs = false
+"Y values computed from proximity model."
+ylist = n > 0 ? compute_ys(target_ys, target_hts) : []
+
+# ╔═╡ 22cf1da7-991c-4d8b-ad32-acc8146b6b4a
+(tgt_heights_pct, target_hts, ylist)
+
+# ╔═╡ 54e6306d-f454-4581-9b30-cbf28bdb4d58
+ylist
+
+# ╔═╡ 6c73e797-94d8-44b1-8c33-62d4fa05a485
+target_hts
+
+# ╔═╡ 5c7927da-7b1c-46ce-ba70-2e171c368bc1
+begin
+	idx = mod(2, length(palette)) + 1
+	palette[idx]
+end
+
 # ╔═╡ 19728a62-3280-4bb8-88a3-55b55fb17d1a
 "Diagram location of notes on page."
 function notesplacement_luxor(note_ys, hts; dotcolors = palette, nudge = 0.02)
@@ -272,6 +296,7 @@ function notesplacement_luxor(note_ys, hts; dotcolors = palette, nudge = 0.02)
 		
 		pt = Point(midpt, note_y)
 		circle(pt, 3, :fill)
+		text("$(dothueidx)", pt)
 		
 		lft = notesbox[:left] * page_w + nudge * page_w
 		rght = notesbox[:right] * page_w - nudge * page_w
@@ -286,9 +311,7 @@ end
 
 # ╔═╡ 71621d08-4aa3-4166-88ff-6ec6252e6ab0
 # ╠═╡ show_logs = false
-
-
-	@draw begin
+@draw begin
 		translate(-1 * page_w / 2,  -1 * page_h / 2)
 		
 		txty = textbox[:top] / 2
@@ -308,16 +331,15 @@ end
 		textframe_luxor(page_w, page_h) 
 		notesframe_luxor(page_w, page_h)
 
-		iliad_lines()
+		iliad_lines(; dotcolors = palette)
 
 		if n > 0
-			ylist = compute_ys(target_ys, target_hts)
+			#ylist = compute_ys(target_ys, target_hts)
 			
 			notesplacement_luxor(ylist, target_hts)
 		end
 			
-	end page_w page_h
-
+end page_w page_h
 
 
 # ╔═╡ 96fed54e-0b0f-433a-9e83-116d897ee9ff
@@ -1249,13 +1271,15 @@ version = "3.5.0+0"
 # ╟─dfcc8f4b-02b8-45ea-894b-b925abc87f12
 # ╟─3ac83d33-39b6-4bf8-9b6c-c6e62c719184
 # ╟─71621d08-4aa3-4166-88ff-6ec6252e6ab0
-# ╟─6f369a67-0fcb-425e-9c0e-3e1334765747
 # ╟─56fd471b-6434-4a35-aa43-a2b2db843bfc
 # ╟─37e3a612-ce17-4479-9155-3a3886ac2671
+# ╠═6f369a67-0fcb-425e-9c0e-3e1334765747
 # ╟─ab40b76e-58c0-4440-ad8d-48ced419161d
 # ╟─0350d11c-2136-4fc2-80e4-c2dda57a4ca9
+# ╠═22cf1da7-991c-4d8b-ad32-acc8146b6b4a
 # ╟─60ff685f-adb3-4640-b708-7b016aabec7d
 # ╟─67a87432-02c2-4744-9a7a-471949bb9808
+# ╟─d58f0c1c-8b6d-4665-826d-fb1245ca1e1b
 # ╟─70381769-9c8d-483c-85a6-44c637afe521
 # ╟─a11c8148-f976-4bcd-b331-5a8bd291089d
 # ╠═e8db099e-a1a8-4538-a88a-c90527a4a6b7
@@ -1272,9 +1296,12 @@ version = "3.5.0+0"
 # ╟─17c2f1f4-e05c-4a61-9f36-77e81afba357
 # ╟─38bc2cc3-d0b1-4d56-8bba-9e3cf1670f2a
 # ╟─fbaefc09-3412-4476-8523-4ce4ace1e7df
-# ╟─59922b6f-25f2-47f5-9276-5c498875041f
+# ╠═59922b6f-25f2-47f5-9276-5c498875041f
 # ╟─d05ebdb7-a29c-4cc3-9415-53c846f016fb
 # ╟─70bd35df-6e3a-46bd-8b67-48b29447a0cf
+# ╠═54e6306d-f454-4581-9b30-cbf28bdb4d58
+# ╠═6c73e797-94d8-44b1-8c33-62d4fa05a485
+# ╠═5c7927da-7b1c-46ce-ba70-2e171c368bc1
 # ╟─19728a62-3280-4bb8-88a3-55b55fb17d1a
 # ╠═96fed54e-0b0f-433a-9e83-116d897ee9ff
 # ╟─00000000-0000-0000-0000-000000000001

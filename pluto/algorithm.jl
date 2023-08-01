@@ -45,10 +45,10 @@ md"""### Data
 """
 
 # ╔═╡ 51e7221e-03d2-4d51-808f-8dadbe0839fc
-target_lines = [0.2, 0.24, 0.4]
+target_lines = [0.4, 0.42, 0.7]
 
 # ╔═╡ 308d4c18-0c0a-4b03-a518-58fbab48380e
-note_heights = [0.05, 0.05, 0.12]
+note_heights = [0.085, 0.05, 0.12]
 
 # ╔═╡ 8901dbb6-7633-4cb9-9afb-24ace43bca22
 md"""*Compute model for `n` footnotes where* `n` = $(@bind n Slider(0:length(target_lines), default = 0, show_value=true))"""
@@ -62,13 +62,15 @@ The `compute_ys` function in the following cell solves the problem of optimizing
 """
 
 # ╔═╡ 9d805121-a0eb-445b-bf3f-94c770954aa8
+"""Compute optimal placement of notes with heights given in `heights` to
+align with text lines at y values given in `targets`."""
 function compute_ys(targets, heights)
 	n = length(targets)
 	model = Model(HiGHS.Optimizer)
 	@variable(model, yval[i = 1:n])
 	@constraint(model, domainlimits, 0 .<= yval .<= 1)
 	for i in 2:n
-		@constraint(model, yval[i] <= yval[i-1] + heights[i-1])
+		@constraint(model, yval[i] >= yval[i-1] + heights[i-1])
 	end
 	@objective(model, Min, sum((yval[i] - targets[i])^2 for i in 1:n))
 	optimize!(model)
