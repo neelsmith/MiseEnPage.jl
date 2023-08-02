@@ -29,13 +29,13 @@ md"*To see the julia environment, unhide the following cell.*"
 
 # ╔═╡ ffb7a162-3105-11ee-0efe-fd261fd4f206
 md"""# Design a manuscript page!
-- attach heights for a note to a line on your page
-- watch the diagram adjust placement to keep the note as close as possible to the line it comments on
+1. attach heights for a note to a line on your page
+1. use the slider to change the number of notes to plot and watch the diagram adjust placement to keep the note as close as possible to the line it comments on
 """
 
 # ╔═╡ cc1a389a-8075-4a72-b825-752524ddaa62
 md""">### Instructions
-> Add notes by entering a pair of numbers in parentheses in the `annotations` list.  The first number is the line line number (so between 1 and the current setting $(linecount)); the second number is height scaled from 0 (no text) to 1.0 (the entire height of the page)."""
+> Add notes by entering a pair of numbers in parentheses in the `annotations` list.  The first number is the line number (so between 1 and the current setting $(linecount)); the second number is height scaled from 0 (no text) to 1.0 (the entire height of the page)."""
 
 # ╔═╡ a4ef8c50-fd23-403e-ab08-fed783f95d10
 aside(tip(md"""
@@ -45,11 +45,13 @@ aside(tip(md"""
 
 ```
 annotations = [ 
-   (3, 0.08),  (7, 0.1) 
+   	(1, 0.12),	
+    (3, 0.09),
 ]
 ```
 
- attaches a note to **line 3** taking up **8%** of the page height and one on **line 7** taking up **10%** of the page height."""), v_offset = 50)
+- attaches a note to **line 1** taking up **12%** of the page height 
+- attaches a note to **line 3** taking up **9%** of the page height."""), v_offset = 50)
 
 
 # ╔═╡ 5822a959-df53-416d-86b8-25fdeac6cc05
@@ -62,14 +64,6 @@ md"""*Heights of annotations*:"""
 annotations = [ 
 	(1, 0.12),
 	(3, 0.09),
-	(4,0.03),
-	(6, 0.04),
-	(7, 0.1),
-	(12, 0.03),
-	(14, 0.05),
-	(18,0.02),
-	(20, 0.08),
-	(24,0.14)
 ]
 
 # ╔═╡ 9e1dedd1-30bd-4c60-a513-29fb4661629d
