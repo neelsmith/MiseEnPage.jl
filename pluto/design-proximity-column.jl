@@ -27,6 +27,20 @@ end
 # ╔═╡ 7e13dd7d-eb42-4490-aaed-204e3c21aa52
 md"*To see the julia environment, unhide the following cell.*"
 
+# ╔═╡ 8357cc57-d87b-4980-be42-3ef3eda04d3e
+begin
+	nbversion = "1.0"
+	md"""*Notebook version*: **$(nbversion)** *See release notes* $(@bind releases CheckBox())
+	"""
+end
+
+# ╔═╡ 3619403f-0c4c-41a8-9509-5c69bbb37960
+if releases
+	md"""
+- **1.0**: initial release.
+	"""
+end
+
 # ╔═╡ ffb7a162-3105-11ee-0efe-fd261fd4f206
 md"""# Design a manuscript page!
 1. attach heights for a note to a line on your page
@@ -1328,6 +1342,8 @@ version = "3.5.0+0"
 # ╔═╡ Cell order:
 # ╟─7e13dd7d-eb42-4490-aaed-204e3c21aa52
 # ╟─ca1040c6-708d-4ce0-8668-a5182487d043
+# ╟─8357cc57-d87b-4980-be42-3ef3eda04d3e
+# ╟─3619403f-0c4c-41a8-9509-5c69bbb37960
 # ╟─ffb7a162-3105-11ee-0efe-fd261fd4f206
 # ╟─cc1a389a-8075-4a72-b825-752524ddaa62
 # ╟─a4ef8c50-fd23-403e-ab08-fed783f95d10
