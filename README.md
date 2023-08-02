@@ -2,11 +2,11 @@
 
 Analyze the layout of manuscript pages edited following the conventions of the Homer Multitext project.
 
-Optimizing placement of *scholia*: interactive Pluto notebook:
+Interactive Pluto notebook: optimizing placement of *scholia* in the proximity hypothesis:
 
 ![demo gif](./mise-en-page.gif)
 
-Results of anlaysis, Venetus A, folio 195 *recto*:
+Results of anlaysis, Venetus A, folio 195 *recto*: theoretical `y`` position in proximity hypothesis versus actual `y` positions:
 
 ![page 195 recto](./195r.png)
 
