@@ -27,8 +27,21 @@ end
 # ╔═╡ 2e0b9dc8-c319-4aad-89f4-8240267bb007
 md"*To see the julia environment, unhide the following cell.*"
 
+# ╔═╡ afe3e734-09eb-4601-a8e3-33fdb7d32363
+begin
+	nbversion = "1.0"
+	md"""*Notebook version*: **$(nbversion)** *See release information* $(@bind releases CheckBox())""" 
+end
+
+# ╔═╡ 18fc35a4-4516-469f-aec6-f9a320b26c22
+if releases
+	md"""
+- **1.0**: initial release	
+"""	
+end
+
 # ╔═╡ 254f3d34-3063-11ee-1923-3f34b8bae22e
-md"""# Demonstration of page layout algorithm
+md"""# Demonstration of page layout: modeling the proximity hypothesis
 
 ## The problem
 
@@ -1055,6 +1068,8 @@ version = "3.5.0+0"
 # ╔═╡ Cell order:
 # ╟─2e0b9dc8-c319-4aad-89f4-8240267bb007
 # ╟─3de0bb5a-a0b6-4c71-b773-d5dd472926bf
+# ╟─afe3e734-09eb-4601-a8e3-33fdb7d32363
+# ╟─18fc35a4-4516-469f-aec6-f9a320b26c22
 # ╟─254f3d34-3063-11ee-1923-3f34b8bae22e
 # ╟─be329638-2075-4738-a131-25dfabc57c44
 # ╠═51e7221e-03d2-4d51-808f-8dadbe0839fc
