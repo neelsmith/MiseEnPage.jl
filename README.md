@@ -2,6 +2,11 @@
 
 Analyze the layout of manuscript pages edited following the conventions of the Homer Multitext project.
 
+Optimizing placement of *scholia*: interactive Pluto notebook:
+
+![demo gif](./mise-en-page.gif)
+
+Results of anlaysis, Venetus A, folio 195 *recto*:
 
 ![page 195 recto](./195r.png)
 
