@@ -28,33 +28,47 @@ end
 md"*To see the julia environment, unhide the following cell.*"
 
 # ╔═╡ ffb7a162-3105-11ee-0efe-fd261fd4f206
-md"# Design a manuscript page!"
+md"""# Design a manuscript page!
+- attach heights for a note to a line on your page
+- watch the diagram adjust placement to keep the note as close as possible to the line it comments on
+"""
 
 # ╔═╡ 5822a959-df53-416d-86b8-25fdeac6cc05
 md"""*Number of lines on page* $(@bind linecount NumberField(0:30, default=24))"""
+
+# ╔═╡ a4ef8c50-fd23-403e-ab08-fed783f95d10
+md"""
+Add notes by 
+entering a pair of numbers in parentheses in the `annotations` list.  The first number is the line line number (so between 1 and the current setting $(linecount)); the second number is height scaled from 0 (no text) to 1.0 (the entire height of the page).
+
+>### Example
+>
+>    `annotations = [ (3, 0.08),  (7, 0.1) ]`
+>
+> attaches a note to line 3 taking up 8% of the page height and one on line 7 taking up 10% of the page height."""
+
 
 # ╔═╡ fd3b6b4a-e782-45eb-ba64-ea7b9e16d4e9
 md"""*Heights of annotations*:"""
 
 # ╔═╡ 7aca8539-15ff-407b-82ef-315938b04b1d
-annotations = [(1, 0.04 )]
+annotations = [ 
+	(3, 0.09),
+	(4,0.03),
+	(6, 0.04),
+	(7, 0.1),
+	(14, 0.05),
+	(20, 0.08),
+	(24,0.12),
 
-# ╔═╡ 4dca500a-e8e5-4e40-b8db-c0a91b59c6f6
-annotations[1] |> length
+]
 
 # ╔═╡ 9e1dedd1-30bd-4c60-a513-29fb4661629d
-md"""*Page height* $(@bind page_h Slider(100:50:1000, default = 250, show_value=true))"""
-
-# ╔═╡ 1100e5f2-8dd6-4385-904f-ecc7f1155606
-function notes_luxor(colorlist)
-
-end
-
-# ╔═╡ a1654fb2-f468-4514-82f2-fb4c5b4ebdf7
-
+md"""*Page height* $(@bind page_h Slider(100:50:1000, default = 350, show_value=true))"""
 
 # ╔═╡ 392d8a9a-a02d-426d-96ef-7b74300c8c63
 html"""
+<br/><br/><br/><br/><br/>
 <br/><br/><br/><br/><br/>
 <hr/>
 """
@@ -121,6 +135,9 @@ function compute_ys(targets, heights)
 	model = Model(HiGHS.Optimizer)
 	@variable(model, yval[i = 1:n])
 	@constraint(model, domainlimits, column_ceiling .<= yval .<= column_floor)
+	for i in 1:n
+		@constraint(model, yval[i] + heights[i] <= column_floor)
+	end
 	for i in 2:n
 		@constraint(model, yval[i] >= yval[i-1] + heights[i-1])
 	end
@@ -135,7 +152,7 @@ end
 
 # ╔═╡ 72101718-0a16-496f-9464-7f7c9d51caf3
 # ╠═╡ show_logs = false
-computed_ys = compute_ys(target_ys_scaled, target_heights)
+computed_ys = compute_ys(target_ys_scaled, target_heights_scaled)
 
 # ╔═╡ 44efff3a-635a-4651-ac4b-c13812910ce9
 notesmidpt = ((notesbox[:left] + notesbox[:right]) / 2) * page_w
@@ -238,7 +255,48 @@ function iliad_annotations_luxor(colorlist)
 	end
 end
 
+# ╔═╡ 1100e5f2-8dd6-4385-904f-ecc7f1155606
+"""Draw notes at computed locations"""
+function notes_luxor(colorlist; nudge = 0.02)
+	if isempty(computed_ys)
+		sethue("red")
+		setdash("solid")
+		l = notesbox[:left] * page_w
+		r = notesbox[:right] * page_w 
+		t = notesbox[:top] * page_h
+		b = notesbox[:bottom] * page_h
+		rt = Point(r,t)
+		lb = Point(l,b)
+		line(rt,lb,:stroke)
+		lt = Point(l,t)
+		rb = Point(r,b)
+		line(lt, rb,:stroke)
+		
+		
+	else
+		for (i, y) in enumerate(computed_ys)
+			dothueidx = mod(i, length(colorlist)) + 1
+			sethue(colorlist[dothueidx])
+	
+			pt = Point(notesmidpt, y)
+			circle(pt, 3, :fill)
+			textpt = Point(notesmidpt + 3, y -2 )
+			text("$(dothueidx - 1)", textpt)
+	
+	
+			lft = notesbox[:left] * page_w + nudge * page_w
+			rght = notesbox[:right] * page_w - nudge * page_w
+			btm = y + target_heights_scaled[i]
+		
+			lt = Point(lft, y)
+			rb = Point(rght, btm)
+			box(lt, rb, :stroke)
+		end
+	end
+end
+
 # ╔═╡ 7d8936ee-773a-4c7e-8e9e-c513421e4ef3
+"Mark annotated lines and box notes"
 function annotations_luxor(; colorlist = palette)
 	iliad_annotations_luxor(colorlist)
 	notes_luxor(colorlist)
@@ -319,12 +377,15 @@ if  ! (typeof(annotations) <: Vector)
 
 (This is the Julia syntax for a list, or *Vector*)	
 	""")
+elseif isempty(annotations)
+	diagrampage()
 	
 elseif ! (typeof(annotations[1]) <: Tuple)
 	danger(md"""Entries in the list should be pairs of numbers between parentheses, like this:
 
     annotations = [ (3, 0.08) ]	
 	""")
+	
 	
 elseif ! linenumsok()
 	danger(md"""The first number in each pair should be between 0 and the number of lines on the page ($(linecount)).  Please fix your entry $(badnums())""")
@@ -1259,16 +1320,12 @@ version = "3.5.0+0"
 # ╟─7e13dd7d-eb42-4490-aaed-204e3c21aa52
 # ╟─ca1040c6-708d-4ce0-8668-a5182487d043
 # ╟─ffb7a162-3105-11ee-0efe-fd261fd4f206
+# ╟─a4ef8c50-fd23-403e-ab08-fed783f95d10
 # ╟─5822a959-df53-416d-86b8-25fdeac6cc05
 # ╟─fd3b6b4a-e782-45eb-ba64-ea7b9e16d4e9
 # ╠═7aca8539-15ff-407b-82ef-315938b04b1d
-# ╠═4dca500a-e8e5-4e40-b8db-c0a91b59c6f6
 # ╟─9e1dedd1-30bd-4c60-a513-29fb4661629d
-# ╠═50630b28-4b73-4c86-b4e0-77bfe6989aff
-# ╠═7d8936ee-773a-4c7e-8e9e-c513421e4ef3
-# ╠═1100e5f2-8dd6-4385-904f-ecc7f1155606
-# ╠═a1654fb2-f468-4514-82f2-fb4c5b4ebdf7
-# ╟─e2266631-53d2-44d4-8c8f-02da06cfe0b0
+# ╟─50630b28-4b73-4c86-b4e0-77bfe6989aff
 # ╟─392d8a9a-a02d-426d-96ef-7b74300c8c63
 # ╟─366dfb27-f55d-4d00-ae91-c32e7962d1bf
 # ╟─3b2498cc-aa47-4a49-b825-6f09417ee09f
@@ -1294,12 +1351,15 @@ version = "3.5.0+0"
 # ╟─7af99477-2546-45d8-b804-c435ec743d17
 # ╟─cf03b8bf-ab6c-4e88-89e9-bb720b5c9612
 # ╟─29d7d7dd-6d97-4e35-b1ab-0067b78a47c4
+# ╟─e2266631-53d2-44d4-8c8f-02da06cfe0b0
 # ╟─86aac6a9-898a-43ea-b2ab-b6d4d2fc37ef
 # ╟─ddbaddd3-b6a5-4178-a70a-0a76b767f78d
 # ╟─14b59477-79cf-4f73-93da-74a69c2a00aa
 # ╟─60a3cc00-5a3f-4ac3-af88-2db4f068e12d
 # ╟─1acd6275-8d69-450d-950d-1bcb4a184402
+# ╟─7d8936ee-773a-4c7e-8e9e-c513421e4ef3
 # ╟─cf14c03d-370d-4121-858b-6fff8c3b2879
+# ╟─1100e5f2-8dd6-4385-904f-ecc7f1155606
 # ╟─9964bb38-8093-42ea-8d04-d7288c6e5a28
 # ╟─f9052b94-6b2f-427b-bdf1-b332f1c49d1e
 # ╟─71a6f8ee-ccee-47fd-8188-4b97c4933c49
