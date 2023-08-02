@@ -6,7 +6,7 @@ Interactive Pluto notebook: optimizing placement of *scholia* under the proximit
 
 ![demo gif](./mise-en-page.gif)
 
-Results of anlaysis, Venetus A, folio 195 *recto*: theoretical `y` position in proximity hypothesis versus actual `y` positions:
+Results of anlaysis, Venetus A, folio 195 *recto*: theoretical `y` position under the proximity hypothesis versus actual `y` positions:
 
 ![page 195 recto](./195r.png)
 
