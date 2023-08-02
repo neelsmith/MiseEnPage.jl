@@ -1,6 +1,6 @@
 # MiseEnPage.jl
 
-Analyze the layout of manuscript pages edited following the conventions of the Homer Multitext project.
+> ☛ Analyze the layout of manuscript pages edited following the conventions of the Homer Multitext project.
 
 Interactive Pluto notebook: optimizing placement of *scholia* in the proximity hypothesis:
 
