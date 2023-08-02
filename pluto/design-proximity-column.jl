@@ -33,30 +33,39 @@ md"""# Design a manuscript page!
 - watch the diagram adjust placement to keep the note as close as possible to the line it comments on
 """
 
-# ╔═╡ 5822a959-df53-416d-86b8-25fdeac6cc05
-md"""*Number of lines on page* $(@bind linecount NumberField(0:30, default=24))"""
+# ╔═╡ cc1a389a-8075-4a72-b825-752524ddaa62
+md""">### Instructions
+> Add notes by entering a pair of numbers in parentheses in the `annotations` list.  The first number is the line line number (so between 1 and the current setting $(linecount)); the second number is height scaled from 0 (no text) to 1.0 (the entire height of the page)."""
 
 # ╔═╡ a4ef8c50-fd23-403e-ab08-fed783f95d10
-md"""
-Add notes by 
-entering a pair of numbers in parentheses in the `annotations` list.  The first number is the line line number (so between 1 and the current setting $(linecount)); the second number is height scaled from 0 (no text) to 1.0 (the entire height of the page).
+aside(tip(md"""
 
->### Example
->
->    `annotations = [ (3, 0.08),  (7, 0.1) ]`
->
-> attaches a note to line 3 taking up 8% of the page height and one on line 7 taking up 10% of the page height."""
 
+### Example
+
+```
+annotations = [ 
+   (3, 0.08),  (7, 0.1) 
+]
+```
+
+ attaches a note to **line 3** taking up **8%** of the page height and one on **line 7** taking up **10%** of the page height."""), v_offset = 50)
+
+
+# ╔═╡ 5822a959-df53-416d-86b8-25fdeac6cc05
+md"""*Number of lines on page* $(@bind linecount NumberField(0:30, default=24))"""
 
 # ╔═╡ fd3b6b4a-e782-45eb-ba64-ea7b9e16d4e9
 md"""*Heights of annotations*:"""
 
 # ╔═╡ 7aca8539-15ff-407b-82ef-315938b04b1d
 annotations = [ 
+	(1, 0.12),
 	(3, 0.09),
 	(4,0.03),
 	(6, 0.04),
 	(7, 0.1),
+	(12, 0.03),
 	(14, 0.05),
 	(20, 0.08),
 	(24,0.12),
@@ -81,6 +90,9 @@ nonzero_annotations = filter(pr -> pr[1] > 0 && pr[2] > 0.0, annotations)
 
 # ╔═╡ dd8270f5-f953-4fa9-a714-88bc0a589256
 target_lines = map(pr -> pr[1], nonzero_annotations)
+
+# ╔═╡ b7ef271c-1012-4b54-82cd-67e33badf479
+md"""*Number of notes to plot* $(@bind stepcount Slider(1:length(target_lines), show_value=true, default=length(target_lines)))"""
 
 # ╔═╡ 0ebf2247-3936-48bc-aba8-1adc656e1a2d
 target_heights = map(pr -> pr[2], nonzero_annotations)
@@ -152,7 +164,7 @@ end
 
 # ╔═╡ 72101718-0a16-496f-9464-7f7c9d51caf3
 # ╠═╡ show_logs = false
-computed_ys = compute_ys(target_ys_scaled, target_heights_scaled)
+computed_ys = compute_ys(target_ys_scaled[1:stepcount], target_heights_scaled[1:stepcount])
 
 # ╔═╡ 44efff3a-635a-4651-ac4b-c13812910ce9
 notesmidpt = ((notesbox[:left] + notesbox[:right]) / 2) * page_w
@@ -242,7 +254,7 @@ end
 # ╔═╡ cf14c03d-370d-4121-858b-6fff8c3b2879
 "Mark *Iliad* lines with annotations."
 function iliad_annotations_luxor(colorlist)
-	for (i, linenum) in enumerate(target_lines)
+	for (i, linenum) in enumerate(target_lines[1:stepcount])
 		y = linenum * linespacing + textbox[:top] * page_h
 		linemiddle = Point(textmidpt, y)
 		label = Point(textmidpt + 3, y - 2)
@@ -274,7 +286,7 @@ function notes_luxor(colorlist; nudge = 0.02)
 		
 		
 	else
-		for (i, y) in enumerate(computed_ys)
+		for (i, y) in enumerate(computed_ys[1:stepcount])
 			dothueidx = mod(i, length(colorlist)) + 1
 			sethue(colorlist[dothueidx])
 	
@@ -304,6 +316,7 @@ function annotations_luxor(; colorlist = palette)
 end
 
 # ╔═╡ e2266631-53d2-44d4-8c8f-02da06cfe0b0
+"""Compose a complete Luxor figure."""
 function diagrampage()
 	@draw begin
 		translate(-1 * page_w / 2,  -1 * page_h / 2)
@@ -1320,11 +1333,13 @@ version = "3.5.0+0"
 # ╟─7e13dd7d-eb42-4490-aaed-204e3c21aa52
 # ╟─ca1040c6-708d-4ce0-8668-a5182487d043
 # ╟─ffb7a162-3105-11ee-0efe-fd261fd4f206
+# ╟─cc1a389a-8075-4a72-b825-752524ddaa62
 # ╟─a4ef8c50-fd23-403e-ab08-fed783f95d10
 # ╟─5822a959-df53-416d-86b8-25fdeac6cc05
 # ╟─fd3b6b4a-e782-45eb-ba64-ea7b9e16d4e9
 # ╠═7aca8539-15ff-407b-82ef-315938b04b1d
 # ╟─9e1dedd1-30bd-4c60-a513-29fb4661629d
+# ╟─b7ef271c-1012-4b54-82cd-67e33badf479
 # ╟─50630b28-4b73-4c86-b4e0-77bfe6989aff
 # ╟─392d8a9a-a02d-426d-96ef-7b74300c8c63
 # ╟─366dfb27-f55d-4d00-ae91-c32e7962d1bf
@@ -1359,7 +1374,7 @@ version = "3.5.0+0"
 # ╟─1acd6275-8d69-450d-950d-1bcb4a184402
 # ╟─7d8936ee-773a-4c7e-8e9e-c513421e4ef3
 # ╟─cf14c03d-370d-4121-858b-6fff8c3b2879
-# ╟─1100e5f2-8dd6-4385-904f-ecc7f1155606
+# ╠═1100e5f2-8dd6-4385-904f-ecc7f1155606
 # ╟─9964bb38-8093-42ea-8d04-d7288c6e5a28
 # ╟─f9052b94-6b2f-427b-bdf1-b332f1c49d1e
 # ╟─71a6f8ee-ccee-47fd-8188-4b97c4933c49
