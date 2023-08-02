@@ -67,9 +67,9 @@ annotations = [
 	(7, 0.1),
 	(12, 0.03),
 	(14, 0.05),
+	(18,0.02),
 	(20, 0.08),
-	(24,0.12),
-
+	(24,0.14)
 ]
 
 # ╔═╡ 9e1dedd1-30bd-4c60-a513-29fb4661629d
@@ -92,7 +92,7 @@ nonzero_annotations = filter(pr -> pr[1] > 0 && pr[2] > 0.0, annotations)
 target_lines = map(pr -> pr[1], nonzero_annotations)
 
 # ╔═╡ b7ef271c-1012-4b54-82cd-67e33badf479
-md"""*Number of notes to plot* $(@bind stepcount Slider(1:length(target_lines), show_value=true, default=length(target_lines)))"""
+md"""*Number of notes to plot* $(@bind stepcount Slider(0:length(target_lines), show_value=true, default=length(target_lines)))"""
 
 # ╔═╡ 0ebf2247-3936-48bc-aba8-1adc656e1a2d
 target_heights = map(pr -> pr[2], nonzero_annotations)
@@ -262,7 +262,8 @@ function iliad_annotations_luxor(colorlist)
 		currenthue = colorlist[dothueidx]
 		sethue(currenthue)
 
-		text("$(dothueidx - 1)", label)
+		#text("$(dothueidx - 1)", label)
+		text("$(i)", label)
 		circle(linemiddle, scaleddot(), :fill)
 	end
 end
@@ -292,8 +293,9 @@ function notes_luxor(colorlist; nudge = 0.02)
 	
 			pt = Point(notesmidpt, y)
 			circle(pt, 3, :fill)
+			
 			textpt = Point(notesmidpt + 3, y -2 )
-			text("$(dothueidx - 1)", textpt)
+			text("$(i)", textpt)
 	
 	
 			lft = notesbox[:left] * page_w + nudge * page_w
@@ -332,8 +334,8 @@ function diagrampage()
 		textframe_luxor(page_w, page_h) 
 		notesframe_luxor(page_w, page_h)
 		iliad_lines_luxor()
-		
-		if !isempty(nonzero_annotations)
+
+		if stepcount > 0 && !isempty(nonzero_annotations)
 			annotations_luxor(; colorlist = palette)
 		end
 
@@ -1374,7 +1376,7 @@ version = "3.5.0+0"
 # ╟─1acd6275-8d69-450d-950d-1bcb4a184402
 # ╟─7d8936ee-773a-4c7e-8e9e-c513421e4ef3
 # ╟─cf14c03d-370d-4121-858b-6fff8c3b2879
-# ╠═1100e5f2-8dd6-4385-904f-ecc7f1155606
+# ╟─1100e5f2-8dd6-4385-904f-ecc7f1155606
 # ╟─9964bb38-8093-42ea-8d04-d7288c6e5a28
 # ╟─f9052b94-6b2f-427b-bdf1-b332f1c49d1e
 # ╟─71a6f8ee-ccee-47fd-8188-4b97c4933c49
