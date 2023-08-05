@@ -58,5 +58,6 @@ export visualize_proximity_y_draw, visualize_proximity_y_png
 export pagebox_luxor, iliadbox_luxor
 export commented_lines_luxor
 export plot_actual_y_luxor, plot_proximity_y_luxor
+export zonesboxed_luxor, boxer_luxor
 
 end # module MiseEnPage

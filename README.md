@@ -2,6 +2,12 @@
 
 > ☛ *Analyze the layout of manuscript pages edited following the conventions of the Homer Multitext project*.
 
+
+See the [documentation]().
+
+## Visualizations
+
+
 Interactive Pluto notebook: optimizing placement of *scholia* under the proximity hypothesis:
 
 ![demo gif](./mise-en-page.gif)

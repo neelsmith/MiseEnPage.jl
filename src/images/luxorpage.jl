@@ -64,3 +64,31 @@ function iliadbox_luxor(pg::MSPage, img; luxoraction = :stroke)
     @debug("Boxing points $(ltpt), $(rbpt)")
     box(ltpt, rbpt, action = luxoraction)
 end
+
+
+
+function boxer_luxor(boxcoords, pagedimm; luxoraction = :stroke)
+    lt = Point(boxcoords[:left] * pagedimm[:w], boxcoords[:top] * pagedimm[:h])
+    rb = Point(boxcoords[:left] * pagedimm[:w] + boxcoords[:width] * pagedimm[:w], boxcoords[:top]*pagedimm[:h] + boxcoords[:height]*pagedimm[:h])
+    
+    box(lt, rb, luxoraction)
+end
+
+
+function topzone_box_luxor(pg::MSPage, img; luxoraction = :stroke, siglum = "msA")
+
+end
+
+function zonesboxed_luxor(pg::MSPage, img; luxoraction = :stroke, siglum = "msA")
+    dimm = dimensions(img)
+
+    topbox = MiseEnPage.topzone_box(siglum = "msA")
+    bottombox = MiseEnPage.bottomzone_box(siglum = "msA")
+    sidebox = MiseEnPage.adjacentzone_box(siglum = "msA")
+
+    #sethue("goldenrod2")
+    boxer_luxor(topbox, dimm; luxoraction = luxoraction)
+    boxer_luxor(bottombox, dimm; luxoraction = luxoraction)
+    #sethue("plum")
+    boxer_luxor(sidebox, dimm; luxoraction = luxoraction)
+end

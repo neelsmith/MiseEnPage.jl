@@ -1,5 +1,7 @@
 
-function model_by_zones()
+function model_by_zones(mspage::MSPage; siglum = "msA")
+    toplimit = top_bottom_zone_width(siglum = siglum)
+    
 end
 
 
@@ -8,7 +10,7 @@ end
 in one of the three page zones.
 $(SIGNATURES)
 """
-function iliadzone(i::Int; span = 6, linesonpage = ASSUMED_LINES)
+function iliad_zone(i::Int; span = 6, linesonpage = 24)
     if i <= span
         :top
     elseif i >= (linesonpage  - span)
