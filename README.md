@@ -1,7 +1,17 @@
 # MiseEnPage.jl
 
-Analyze the layout of manuscript pages edited following the conventions of the Homer Multitext project.
+> ☛ *Analyze the layout of manuscript pages edited following the conventions of the Homer Multitext project*.
 
+See the [documentation]().
+
+## Visualizations
+
+
+Interactive Pluto notebook: optimizing placement of *scholia* under the proximity hypothesis:
+
+![demo gif](./mise-en-page.gif)
+
+Results of anlaysis, Venetus A, folio 195 *recto*: theoretical `y` position under the proximity hypothesis versus actual `y` positions:
 
 ![page 195 recto](./195r.png)
 
