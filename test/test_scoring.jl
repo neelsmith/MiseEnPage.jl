@@ -7,4 +7,8 @@
     @test failures(proximity_score) == 9
     @test success_rate(proximity_score) == 0.25
 
+    score_15 = score_by_proximity_y(pg; threshhold = 0.15)
+    @test successes(score_15) == 7
+    @test failures(score_15) == 5
+    @test  success_rate(score_15) == 0.583
 end
