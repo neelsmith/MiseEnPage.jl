@@ -22,16 +22,41 @@ end
 """Top of scholion's bounding box.
 $(SIGNATURES)
 """
-function scholion_top(sipair::ScholionIliadPair)
+function scholion_top(sipair::ScholionIliadPair; digits = 3)
     coords = imagefloats(sipair.scholionbox)
-    coords[:top]
+    round(coords[:top], digits = digits)
 end
 
 
 """Top of *Iliad* text's bounding box.
 $(SIGNATURES)
 """
-function iliad_top(sipair::ScholionIliadPair)
+function iliad_top(sipair::ScholionIliadPair; digits = 3)
     coords = imagefloats(sipair.iliadbox)
-    coords[:top]
+    round(coords[:top], digits = digits)
+end
+
+"""Bottom of *Iliad* text's bounding box.
+$(SIGNATURES)
+"""
+function iliad_bottom(sipair::ScholionIliadPair; digits = 3)
+    coords = imagefloats(sipair.iliadbox)
+    round(coords[:top] + coords[:height], digits = digits)
+end
+
+"""Left of *Iliad* text's bounding box.
+$(SIGNATURES)
+"""
+function iliad_left(sipair::ScholionIliadPair; digits = 3)
+    coords = imagefloats(sipair.iliadbox)
+    round(coords[:left], digits = digits)
+end
+
+
+"""Right of *Iliad* text's bounding box.
+$(SIGNATURES)
+"""
+function iliad_right(sipair::ScholionIliadPair; digits = 3)
+    coords = imagefloats(sipair.iliadbox)
+    round(coords[:left] + coords[:width], digits = digits)
 end

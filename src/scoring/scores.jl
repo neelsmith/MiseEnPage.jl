@@ -90,27 +90,16 @@ of placement by zone. Optionally specify siglum of scholia to model. If `siglum`
 $(SIGNATURES)
 """
 function score_by_zones(mspage::MSPage; threshold = 0.1, siglum = "msA")
-    nothing
-end
-#=
-
-"""Score number of scholia correctly placed on page using Churik's model.
-Optionally specific siglum of scholia to model. If `siglum` is `nothing`, include all scholia.
-$(SIGNATURES)
-"""
-function churik_score(pgdata::PageData; siglum = "msA")::PageScore
-    scalefactor = pagescale_y(pgdata)
-    offset = pageoffset_top(pgdata)
-    topthreshhold = exteriorzone_y_bottom(pgdata)
-    bottomthreshhold = exteriorzone_y_bottom(pgdata)
-    
-    tfscores = map(pgdata.textpairs) do pr
-        if workid(pr.scholion) == siglum
-            churik_model_matches(pr, scalefactor, offset, topthreshhold, bottomthreshhold)
+    predicted = model_by_zones(mspage)
+    actual = scholia_by_zones(mspage)
+    sheep = 0
+    goats = 0
+    for i in 1:length(actual)
+        if predicted[i] == actual[i]
+            sheep = sheep + 1
+        else
+            goats = goats + 1
         end
     end
-    successes = filter(tf -> tf == true, tfscores)
-    failures = filter(tf -> tf == false, tfscores)
-    PageScore(pgdata.pageurn, length(successes), length(failures))
+    PageScore(pageurn(mspage), sheep, goats)
 end
-=#
