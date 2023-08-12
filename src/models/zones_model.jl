@@ -1,9 +1,19 @@
 
-function model_by_zones(mspage::MSPage; siglum = "msA")
-    toplimit = top_bottom_zone_width(siglum = siglum)
-    
+function scholia_by_zones(mspage::MSPage; siglum = "msA")    
+    ilbox =  iliad_bbox_roi(mspage)
+    map(mspage.scholia) do pr
+        scholion_zone(pr, ilbox[:top], ilbox[:bottom])
+    end
 end
 
+"""Model page layout putting each scholion in one of three zones.
+"""
+function model_by_zones(mspage::MSPage; siglum = "msA")    
+    linecount = mspage.iliadlines |> length
+    map(mspage.scholia) do pr
+        iliad_zone(pr.lineindex; linesonpage = linecount)
+    end
+end
 
 
 """Rank the relative sequence of an *Iliad* line `i`
@@ -27,5 +37,11 @@ end
 $(SIGNATURES)
 """
 function scholion_zone(textpair::ScholionIliadPair, topbound, bottombound)
-    println("Top/bottom is $(topbound)/$(bottombound)")
+    if scholion_top(textpair) < topbound
+        :top
+    elseif scholion_top(textpair) > bottombound
+        :bottom
+    else
+        :middle
+    end
 end
