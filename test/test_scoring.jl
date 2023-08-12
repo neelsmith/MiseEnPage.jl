@@ -11,4 +11,17 @@
     @test successes(score_15) == 7
     @test failures(score_15) == 5
     @test  success_rate(score_15) == 0.583
+
+
+
+    
+end
+
+@testset "Test assigning zone rankings to *Iliad* lines" begin
+    @test MiseEnPage.iliad_zone(6) ==  :top
+    @test MiseEnPage.iliad_zone(6, linesonpage = 20) ==  :top
+    @test MiseEnPage.iliad_zone(6, span = 5) == :middle
+    @test MiseEnPage.iliad_zone(18) == :bottom
+    @test MiseEnPage.iliad_zone(18, span = 5) == :middle
+    @test_throws ArgumentError MiseEnPage.iliad_zone(25) 
 end
