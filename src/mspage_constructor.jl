@@ -48,8 +48,8 @@ function msPage(pageurn::Cite2Urn; data = nothing)::Union{MSPage, Nothing}
     allcommentary = hmt_commentary(hmtdata)[1]
     iliadstrings = map(u -> string(u),iliadreff)
     scholiapairs = pairtexts(scholiareff, allcommentary.commentary, dse, iliadstrings)
-
-    iliadboundingbox = iliadboundbox(iliadreff, dse)
+    @debug("TYPE Of scholia pairs is $(typeof(scholiapairs))")
+    iliadboundingbox = iliadboundbox(scholiapairs)
     
     MSPage(
         pageurn, pageside, 
@@ -93,36 +93,23 @@ function pairtexts(scholialist, commentarydata, dsedata, iliadreff)
     filter(pr -> !isnothing(pr), rawmappings)
 end
 
-
+#function iliadboundbox(textpairs::Vector{Union{Nothing, MiseEnPage.ScholionIliadPair}}; digits = 3)::Union{Nothing, NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}}
 
 """Get a containing rectangle for the *Iliad* lines on a page.
 `iliadlines` should be a Vector with *Iliad* lines on a single page;
 `dse` is a DSE collection covering those lines.
 $(SIGNATURES)
 """
-function iliadboundbox(iliadlines, dse; digits = 3)::Union{Nothing, NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}}
-    if isempty(iliadlines)
+function iliadboundbox(textpairs; digits = 3)::Union{Nothing, NamedTuple{(:left, :top, :right, :bottom), NTuple{4, Float64}}}
+    @debug("iliadboundbox: Textpairs is a $(typeof(textpairs))")
+    if isempty(textpairs)
         nothing
     else
-        topdse = imagesfortext(iliadlines[1], dse)#[1] |> MiseEnPage.imagefloats
-        if length(topdse) != 1
-            throw(ArgumentError("iliadboundbox: no DSE record found for $(iliadlines[1])"))
-        end
+        topval = MiseEnPage.iliad_top.(textpairs) |> minimum
+        bottomval = MiseEnPage.iliad_bottom.(textpairs) |> maximum
+        leftval = MiseEnPage.iliad_left.(textpairs) |> minimum
+        rightval = MiseEnPage.iliad_right.(textpairs) |> maximum
 
-        bottomdse = imagesfortext(iliadlines[end], dse)#[1] |> MiseEnPage.
-        if length(bottomdse) != 1
-            throw(ArgumentError("iliadboundbox: no DSE record found for $(iliadlines[end])"))
-        end
-
-        topbox = topdse[1] |> MiseEnPage.imagefloats
-        @debug("Top box on $(iliadlines[1]) is $(topbox)")
-        bottombox = bottomdse[end] |> MiseEnPage.imagefloats
-        @debug("Bottom box on $(iliadlines[end]) is $(bottombox)")
-        lft = min(topbox[1], bottombox[1])
-        rghtraw = max(topbox[1] + topbox[3], bottombox[1] + bottombox[3])
-        rght = round(rghtraw, digits = digits)
-        top = topbox[2]
-        bottom = round(bottombox[2] + bottombox[4], digits = digits)
-        (left = lft, top = top, right = rght, bottom = bottom)
+        (left = leftval, top = topval, right = rightval, bottom = bottomval)
     end
 end

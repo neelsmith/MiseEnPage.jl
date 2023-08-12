@@ -27,5 +27,5 @@ end
 $(SIGNATURES)
 """
 function scholion_zone(textpair::ScholionIliadPair, topbound, bottombound)
-
+    println("Top/bottom is $(topbound)/$(bottombound)")
 end
