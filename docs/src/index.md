@@ -1,6 +1,6 @@
 # `MiseEnPage`
 
-> Analyze the layout of manuscript pages edited according to the conventions of the Homer Multitext project.
+> *Analyze the layout of manuscript pages edited according to the conventions of the Homer Multitext project.*
 
 
 ## Shortest possible example: evaluate and visualize layout hypothesis
@@ -31,7 +31,7 @@ pagescore = score_by_proximity_y(pg)
 success_rate(pagescore)
 ```
 
-Load a documentary image for the page, and visualize the page's layout under the proximity hypothesis compared to the actual layout.  (This last step requires the `Luxor` graphics package.) Gray dots mark *Iliad* lines that scholia comment on; orange dots show the y value for the placment of scholia using the proximity model; green dots show the recorded y value for the scholia.
+Load a documentary image for the page, and visualize the page's layout under the proximity hypothesis compared to the actual layout.  (This last step requires the `Luxor` graphics package.) Gray dots mark *Iliad* lines that scholia comment on; orange dots show the `y` value for the placment of scholia using the proximity model; green dots show the recorded `y` value for the scholia. (`y` value is the top border of a bounding box.)
 
 
 ```@example intro
@@ -39,4 +39,13 @@ img = load_rgba(pg; w = 400)
 
 using Luxor
 visualize_proximity_y_draw(pg, img)
+```
+
+## Documentation
+
+This documentation was built using [Documenter.jl](https://github.com/JuliaDocs).
+
+```@example
+using Dates # hide
+println("Documentation built $(Dates.now()) with Julia $(VERSION) on $(Sys.KERNEL)") # hide
 ```
