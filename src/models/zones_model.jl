@@ -1,7 +1,8 @@
 
 function scholia_by_zones(mspage::MSPage; siglum = "msA")    
+    scholialist = isempty(siglum) || isnothing(siglum) ? textpairs(mspage) : filter(pr -> workid(pr.scholion) == siglum, textpairs(mspage))
     ilbox =  iliad_bbox_roi(mspage)
-    map(mspage.scholia) do pr
+    map(scholialist) do pr
         scholion_zone(pr, ilbox[:top], ilbox[:bottom])
     end
 end
@@ -9,8 +10,10 @@ end
 """Model page layout putting each scholion in one of three zones.
 """
 function model_by_zones(mspage::MSPage; siglum = "msA")    
+    scholialist = isempty(siglum) || isnothing(siglum) ? textpairs(mspage) : filter(pr -> workid(pr.scholion) == siglum, textpairs(mspage))
+
     linecount = mspage.iliadlines |> length
-    map(mspage.scholia) do pr
+    map(scholialist) do pr
         iliad_zone(pr.lineindex; linesonpage = linecount)
     end
 end

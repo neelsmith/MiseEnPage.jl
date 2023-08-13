@@ -2,6 +2,15 @@
 """Draw in an interactive Luxor environment a diagram of the y alignment of scholia for page `pg` according to the promixity model.
 $(SIGNATURES)
 """
+function visualize_proximity_y_draw(pg::MSPage; w = 400)
+    img = load_rgba(pg; w = w)
+    visualize_proximity_y_draw(pg, img)
+end
+
+
+"""Draw in an interactive Luxor environment a diagram of the y alignment of scholia for page `pg` according to the promixity model.
+$(SIGNATURES)
+"""
 function visualize_proximity_y_draw(pg::MSPage, img::Matrix{RGBA{N0f8}})
     dimm = dimensions(img)
     @draw begin
