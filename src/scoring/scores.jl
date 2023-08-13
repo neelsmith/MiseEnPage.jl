@@ -90,8 +90,9 @@ of placement by zone. Optionally specify siglum of scholia to model. If `siglum`
 $(SIGNATURES)
 """
 function score_by_zones(mspage::MSPage; threshold = 0.1, siglum = "msA")
-    predicted = model_by_zones(mspage)
-    actual = scholia_by_zones(mspage)
+    
+    predicted = model_by_zones(mspage; siglum = siglum)
+    actual = scholia_by_zones(mspage; siglum = siglum)
     sheep = 0
     goats = 0
     for i in 1:length(actual)
