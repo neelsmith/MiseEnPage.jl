@@ -43,7 +43,7 @@ visualize_proximity_y_draw(pg, img)
 
 ## Documentation
 
-This documentation was built using [Documenter.jl](https://github.com/JuliaDocs).
+This documentation was built using [Documenter.jl](https://github.com/JuliaDocs), which generates and incorporates output of all code examples in these pages as part of its build process.
 
 ```@example
 using Dates # hide
