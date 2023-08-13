@@ -32,7 +32,15 @@ success_rate(score_15)
 
 ## Zoned layout hypothesis
 
+The `score_by_zones` function evaluates how successfully the zoned page layout hypothesis predicts the layout of scholia for a single page by comparing the model's placement of scholia with their actual recorded positions.
 
+
+```@example scores
+score_zones = score_by_zones(pg)
+```
+```@example scores
+success_rate(score_zones)
+```
 
 ## Caveats
 
