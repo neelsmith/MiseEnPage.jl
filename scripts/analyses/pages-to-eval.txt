@@ -85,4 +85,3 @@ urn:cite2:hmt:msA.v1:318r
 urn:cite2:hmt:msA.v1:318v
 urn:cite2:hmt:msA.v1:321v
 urn:cite2:hmt:msA.v1:326v
-urn:cite2:hmt:msA.v1:327r
